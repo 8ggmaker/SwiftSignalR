@@ -1,0 +1,2 @@
+# SwiftSignalR
+Swift SignalR implementation
