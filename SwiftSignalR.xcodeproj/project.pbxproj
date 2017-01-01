@@ -1,0 +1,763 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		3B0853FE1E153B3F00B46D6C /* TestSwiftSignalRViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B0853FD1E153B3F00B46D6C /* TestSwiftSignalRViewController.swift */; };
+		3B0853FF1E15548D00B46D6C /* SwiftSignalR.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B4DCBDB1DD623B4008CC256 /* SwiftSignalR.framework */; };
+		3B0854001E15548D00B46D6C /* SwiftSignalR.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3B4DCBDB1DD623B4008CC256 /* SwiftSignalR.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		3B0854051E1563D300B46D6C /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B0854041E1563D300B46D6C /* StringExtensions.swift */; };
+		3B0854071E1569E200B46D6C /* HubConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B0854061E1569E200B46D6C /* HubConnection.swift */; };
+		3B0854091E1635DB00B46D6C /* IHubConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B0854081E1635DB00B46D6C /* IHubConnection.swift */; };
+		3B08540B1E1637AC00B46D6C /* HubProgressUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B08540A1E1637AC00B46D6C /* HubProgressUpdate.swift */; };
+		3B08540D1E16474500B46D6C /* HubResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B08540C1E16474500B46D6C /* HubResult.swift */; };
+		3B08540F1E16B65E00B46D6C /* Subscription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B08540E1E16B65E00B46D6C /* Subscription.swift */; };
+		3B0854111E17A0E000B46D6C /* IHubProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B0854101E17A0E000B46D6C /* IHubProxy.swift */; };
+		3B0854131E17B1C000B46D6C /* HubProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B0854121E17B1C000B46D6C /* HubProxy.swift */; };
+		3B0854151E1814BA00B46D6C /* HubInvocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B0854141E1814BA00B46D6C /* HubInvocation.swift */; };
+		3B0854171E19239100B46D6C /* HubRegistrationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B0854161E19239100B46D6C /* HubRegistrationData.swift */; };
+		3B2293051E10D21100DFAEC7 /* Connection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2293041E10D21100DFAEC7 /* Connection.swift */; };
+		3B2293071E111F6700DFAEC7 /* SSRLock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2293061E111F6700DFAEC7 /* SSRLock.swift */; };
+		3B2293091E12462C00DFAEC7 /* HeartBeatMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B2293081E12462C00DFAEC7 /* HeartBeatMonitor.swift */; };
+		3B4DCBDF1DD623B4008CC256 /* SwiftSignalR.h in Headers */ = {isa = PBXBuildFile; fileRef = 3B4DCBDE1DD623B4008CC256 /* SwiftSignalR.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3B4DCBFA1DD7514D008CC256 /* IClientTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4DCBF91DD7514D008CC256 /* IClientTransport.swift */; };
+		3B4DCBFD1DD75164008CC256 /* NegotiationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4DCBFC1DD75164008CC256 /* NegotiationResponse.swift */; };
+		3B4DCC001DD75408008CC256 /* IConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4DCBFF1DD75408008CC256 /* IConnection.swift */; };
+		3B4DCC041DD754D3008CC256 /* Version.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4DCC031DD754D3008CC256 /* Version.swift */; };
+		3B4DCC081DD756AD008CC256 /* Exception.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4DCC071DD756AD008CC256 /* Exception.swift */; };
+		3B4DCC0B1DD768EF008CC256 /* CancellationToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4DCC0A1DD768EF008CC256 /* CancellationToken.swift */; };
+		3B4DCC0E1DD83B6B008CC256 /* KeepAliveData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4DCC0D1DD83B6B008CC256 /* KeepAliveData.swift */; };
+		3B4DCC111DD84E48008CC256 /* ConnectionState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4DCC101DD84E48008CC256 /* ConnectionState.swift */; };
+		3B4DCC141DD8A6B7008CC256 /* UrlBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4DCC131DD8A6B7008CC256 /* UrlBuilder.swift */; };
+		3B4DCC181DE186FC008CC256 /* TransportHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4DCC171DE186FC008CC256 /* TransportHelper.swift */; };
+		3B4DCC1B1DE84933008CC256 /* TransportAbortHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4DCC1A1DE84933008CC256 /* TransportAbortHandler.swift */; };
+		3B4DCC501E054758008CC256 /* ClientTransportBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4DCC4F1E054758008CC256 /* ClientTransportBase.swift */; };
+		3B4DCC521E07D0E9008CC256 /* HttpClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4DCC511E07D0E9008CC256 /* HttpClient.swift */; };
+		3B4DCC541E07ECD1008CC256 /* IHttpClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4DCC531E07ECD1008CC256 /* IHttpClient.swift */; };
+		3B4DCC561E08DF45008CC256 /* WebSocketTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4DCC551E08DF45008CC256 /* WebSocketTransport.swift */; };
+		3BC3D3361E14F57900F8C9C2 /* SSRLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC3D3351E14F57900F8C9C2 /* SSRLog.swift */; };
+		3BC3D33A1E152C4300F8C9C2 /* ConnectionExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC3D3391E152C4300F8C9C2 /* ConnectionExtensions.swift */; };
+		3BC3D3421E152E4C00F8C9C2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC3D3411E152E4C00F8C9C2 /* AppDelegate.swift */; };
+		3BC3D3441E152E4C00F8C9C2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC3D3431E152E4C00F8C9C2 /* ViewController.swift */; };
+		3BC3D3471E152E4C00F8C9C2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3BC3D3451E152E4C00F8C9C2 /* Main.storyboard */; };
+		3BC3D3491E152E4C00F8C9C2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3BC3D3481E152E4C00F8C9C2 /* Assets.xcassets */; };
+		3BC3D34C1E152E4C00F8C9C2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3BC3D34A1E152E4C00F8C9C2 /* LaunchScreen.storyboard */; };
+		625116691C79DA9F7C6EC744 /* Pods_SwiftSignalRTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3941852454853B9099141612 /* Pods_SwiftSignalRTest.framework */; };
+		EBB6557337A236B45ABA7C8E /* Pods_SwiftSignalR.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0998443710F96A30F427511C /* Pods_SwiftSignalR.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		3B0854011E15548D00B46D6C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3B4DCBD21DD623B4008CC256 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3B4DCBDA1DD623B4008CC256;
+			remoteInfo = SwiftSignalR;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		3B0854031E15548D00B46D6C /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				3B0854001E15548D00B46D6C /* SwiftSignalR.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		04F7EBC31C22AAFFA254EF46 /* Pods-SwiftSignalR.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwiftSignalR.release.xcconfig"; path = "Pods/Target Support Files/Pods-SwiftSignalR/Pods-SwiftSignalR.release.xcconfig"; sourceTree = "<group>"; };
+		058E005F2B80D7D56D2220C7 /* Pods-SwiftSignalRTest.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwiftSignalRTest.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SwiftSignalRTest/Pods-SwiftSignalRTest.debug.xcconfig"; sourceTree = "<group>"; };
+		0998443710F96A30F427511C /* Pods_SwiftSignalR.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SwiftSignalR.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1BC6ED0E647D25877C647AFC /* Pods-SwiftSignalRTest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwiftSignalRTest.release.xcconfig"; path = "Pods/Target Support Files/Pods-SwiftSignalRTest/Pods-SwiftSignalRTest.release.xcconfig"; sourceTree = "<group>"; };
+		3941852454853B9099141612 /* Pods_SwiftSignalRTest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SwiftSignalRTest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3B0853FD1E153B3F00B46D6C /* TestSwiftSignalRViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestSwiftSignalRViewController.swift; sourceTree = "<group>"; };
+		3B0854041E1563D300B46D6C /* StringExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
+		3B0854061E1569E200B46D6C /* HubConnection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HubConnection.swift; sourceTree = "<group>"; };
+		3B0854081E1635DB00B46D6C /* IHubConnection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IHubConnection.swift; sourceTree = "<group>"; };
+		3B08540A1E1637AC00B46D6C /* HubProgressUpdate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HubProgressUpdate.swift; sourceTree = "<group>"; };
+		3B08540C1E16474500B46D6C /* HubResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HubResult.swift; sourceTree = "<group>"; };
+		3B08540E1E16B65E00B46D6C /* Subscription.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Subscription.swift; sourceTree = "<group>"; };
+		3B0854101E17A0E000B46D6C /* IHubProxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IHubProxy.swift; sourceTree = "<group>"; };
+		3B0854121E17B1C000B46D6C /* HubProxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HubProxy.swift; sourceTree = "<group>"; };
+		3B0854141E1814BA00B46D6C /* HubInvocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HubInvocation.swift; sourceTree = "<group>"; };
+		3B0854161E19239100B46D6C /* HubRegistrationData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HubRegistrationData.swift; sourceTree = "<group>"; };
+		3B2293041E10D21100DFAEC7 /* Connection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Connection.swift; sourceTree = "<group>"; };
+		3B2293061E111F6700DFAEC7 /* SSRLock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SSRLock.swift; sourceTree = "<group>"; };
+		3B2293081E12462C00DFAEC7 /* HeartBeatMonitor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeartBeatMonitor.swift; sourceTree = "<group>"; };
+		3B4DCBDB1DD623B4008CC256 /* SwiftSignalR.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftSignalR.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3B4DCBDE1DD623B4008CC256 /* SwiftSignalR.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SwiftSignalR.h; sourceTree = "<group>"; };
+		3B4DCBE01DD623B4008CC256 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3B4DCBF91DD7514D008CC256 /* IClientTransport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IClientTransport.swift; sourceTree = "<group>"; };
+		3B4DCBFC1DD75164008CC256 /* NegotiationResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NegotiationResponse.swift; sourceTree = "<group>"; };
+		3B4DCBFF1DD75408008CC256 /* IConnection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IConnection.swift; sourceTree = "<group>"; };
+		3B4DCC031DD754D3008CC256 /* Version.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Version.swift; sourceTree = "<group>"; };
+		3B4DCC071DD756AD008CC256 /* Exception.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Exception.swift; sourceTree = "<group>"; };
+		3B4DCC0A1DD768EF008CC256 /* CancellationToken.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CancellationToken.swift; sourceTree = "<group>"; };
+		3B4DCC0D1DD83B6B008CC256 /* KeepAliveData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeepAliveData.swift; sourceTree = "<group>"; };
+		3B4DCC101DD84E48008CC256 /* ConnectionState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectionState.swift; sourceTree = "<group>"; };
+		3B4DCC131DD8A6B7008CC256 /* UrlBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UrlBuilder.swift; sourceTree = "<group>"; };
+		3B4DCC171DE186FC008CC256 /* TransportHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransportHelper.swift; sourceTree = "<group>"; };
+		3B4DCC1A1DE84933008CC256 /* TransportAbortHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransportAbortHandler.swift; sourceTree = "<group>"; };
+		3B4DCC4F1E054758008CC256 /* ClientTransportBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClientTransportBase.swift; sourceTree = "<group>"; };
+		3B4DCC511E07D0E9008CC256 /* HttpClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpClient.swift; sourceTree = "<group>"; };
+		3B4DCC531E07ECD1008CC256 /* IHttpClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IHttpClient.swift; sourceTree = "<group>"; };
+		3B4DCC551E08DF45008CC256 /* WebSocketTransport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebSocketTransport.swift; sourceTree = "<group>"; };
+		3BC3D3351E14F57900F8C9C2 /* SSRLog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SSRLog.swift; sourceTree = "<group>"; };
+		3BC3D3391E152C4300F8C9C2 /* ConnectionExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectionExtensions.swift; sourceTree = "<group>"; };
+		3BC3D33F1E152E4C00F8C9C2 /* SwiftSignalRTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftSignalRTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3BC3D3411E152E4C00F8C9C2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		3BC3D3431E152E4C00F8C9C2 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		3BC3D3461E152E4C00F8C9C2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		3BC3D3481E152E4C00F8C9C2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		3BC3D34B1E152E4C00F8C9C2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		3BC3D34D1E152E4C00F8C9C2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9DB198719E298A00869D8EA5 /* Pods-SwiftSignalR.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwiftSignalR.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SwiftSignalR/Pods-SwiftSignalR.debug.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		3B4DCBD71DD623B4008CC256 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EBB6557337A236B45ABA7C8E /* Pods_SwiftSignalR.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3BC3D33C1E152E4C00F8C9C2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				625116691C79DA9F7C6EC744 /* Pods_SwiftSignalRTest.framework in Frameworks */,
+				3B0853FF1E15548D00B46D6C /* SwiftSignalR.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		3B4DCBD11DD623B4008CC256 = {
+			isa = PBXGroup;
+			children = (
+				3B4DCBDD1DD623B4008CC256 /* SwiftSignalR */,
+				3BC3D3401E152E4C00F8C9C2 /* SwiftSignalRTest */,
+				3B4DCBDC1DD623B4008CC256 /* Products */,
+				54C9BC0854D9E677EB3F785E /* Pods */,
+				F9337A87B80260C3B8522AF9 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		3B4DCBDC1DD623B4008CC256 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3B4DCBDB1DD623B4008CC256 /* SwiftSignalR.framework */,
+				3BC3D33F1E152E4C00F8C9C2 /* SwiftSignalRTest.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		3B4DCBDD1DD623B4008CC256 /* SwiftSignalR */ = {
+			isa = PBXGroup;
+			children = (
+				3B4DCC061DD7569B008CC256 /* Common */,
+				3B4DCC021DD754BA008CC256 /* Model */,
+				3B4DCBF81DD75083008CC256 /* Http */,
+				3B4DCBF71DD75078008CC256 /* Transports */,
+				3B4DCBF61DD74F7C008CC256 /* Infrastructure */,
+				3B4DCBF51DD623CF008CC256 /* Hubs */,
+				3B4DCBDE1DD623B4008CC256 /* SwiftSignalR.h */,
+				3B4DCC101DD84E48008CC256 /* ConnectionState.swift */,
+				3B4DCBE01DD623B4008CC256 /* Info.plist */,
+				3B4DCBFC1DD75164008CC256 /* NegotiationResponse.swift */,
+				3B4DCBFF1DD75408008CC256 /* IConnection.swift */,
+				3BC3D3391E152C4300F8C9C2 /* ConnectionExtensions.swift */,
+				3B4DCC0D1DD83B6B008CC256 /* KeepAliveData.swift */,
+				3B2293041E10D21100DFAEC7 /* Connection.swift */,
+				3B2293081E12462C00DFAEC7 /* HeartBeatMonitor.swift */,
+				3B0854041E1563D300B46D6C /* StringExtensions.swift */,
+			);
+			path = SwiftSignalR;
+			sourceTree = "<group>";
+		};
+		3B4DCBF51DD623CF008CC256 /* Hubs */ = {
+			isa = PBXGroup;
+			children = (
+				3B0854061E1569E200B46D6C /* HubConnection.swift */,
+				3B0854081E1635DB00B46D6C /* IHubConnection.swift */,
+				3B08540A1E1637AC00B46D6C /* HubProgressUpdate.swift */,
+				3B08540C1E16474500B46D6C /* HubResult.swift */,
+				3B08540E1E16B65E00B46D6C /* Subscription.swift */,
+				3B0854101E17A0E000B46D6C /* IHubProxy.swift */,
+				3B0854121E17B1C000B46D6C /* HubProxy.swift */,
+				3B0854141E1814BA00B46D6C /* HubInvocation.swift */,
+				3B0854161E19239100B46D6C /* HubRegistrationData.swift */,
+			);
+			name = Hubs;
+			sourceTree = "<group>";
+		};
+		3B4DCBF61DD74F7C008CC256 /* Infrastructure */ = {
+			isa = PBXGroup;
+			children = (
+				3B4DCC131DD8A6B7008CC256 /* UrlBuilder.swift */,
+			);
+			name = Infrastructure;
+			sourceTree = "<group>";
+		};
+		3B4DCBF71DD75078008CC256 /* Transports */ = {
+			isa = PBXGroup;
+			children = (
+				3B4DCBF91DD7514D008CC256 /* IClientTransport.swift */,
+				3B4DCC171DE186FC008CC256 /* TransportHelper.swift */,
+				3B4DCC1A1DE84933008CC256 /* TransportAbortHandler.swift */,
+				3B4DCC4F1E054758008CC256 /* ClientTransportBase.swift */,
+				3B4DCC551E08DF45008CC256 /* WebSocketTransport.swift */,
+			);
+			name = Transports;
+			sourceTree = "<group>";
+		};
+		3B4DCBF81DD75083008CC256 /* Http */ = {
+			isa = PBXGroup;
+			children = (
+				3B4DCC511E07D0E9008CC256 /* HttpClient.swift */,
+				3B4DCC531E07ECD1008CC256 /* IHttpClient.swift */,
+			);
+			name = Http;
+			sourceTree = "<group>";
+		};
+		3B4DCC021DD754BA008CC256 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				3B4DCC031DD754D3008CC256 /* Version.swift */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		3B4DCC061DD7569B008CC256 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				3B4DCC161DDED624008CC256 /* Exception */,
+				3B4DCC0A1DD768EF008CC256 /* CancellationToken.swift */,
+				3B2293061E111F6700DFAEC7 /* SSRLock.swift */,
+				3BC3D3351E14F57900F8C9C2 /* SSRLog.swift */,
+			);
+			name = Common;
+			sourceTree = "<group>";
+		};
+		3B4DCC161DDED624008CC256 /* Exception */ = {
+			isa = PBXGroup;
+			children = (
+				3B4DCC071DD756AD008CC256 /* Exception.swift */,
+			);
+			name = Exception;
+			sourceTree = "<group>";
+		};
+		3BC3D3401E152E4C00F8C9C2 /* SwiftSignalRTest */ = {
+			isa = PBXGroup;
+			children = (
+				3BC3D3411E152E4C00F8C9C2 /* AppDelegate.swift */,
+				3BC3D3431E152E4C00F8C9C2 /* ViewController.swift */,
+				3BC3D3451E152E4C00F8C9C2 /* Main.storyboard */,
+				3BC3D3481E152E4C00F8C9C2 /* Assets.xcassets */,
+				3BC3D34A1E152E4C00F8C9C2 /* LaunchScreen.storyboard */,
+				3BC3D34D1E152E4C00F8C9C2 /* Info.plist */,
+				3B0853FD1E153B3F00B46D6C /* TestSwiftSignalRViewController.swift */,
+			);
+			path = SwiftSignalRTest;
+			sourceTree = "<group>";
+		};
+		54C9BC0854D9E677EB3F785E /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				9DB198719E298A00869D8EA5 /* Pods-SwiftSignalR.debug.xcconfig */,
+				04F7EBC31C22AAFFA254EF46 /* Pods-SwiftSignalR.release.xcconfig */,
+				058E005F2B80D7D56D2220C7 /* Pods-SwiftSignalRTest.debug.xcconfig */,
+				1BC6ED0E647D25877C647AFC /* Pods-SwiftSignalRTest.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		F9337A87B80260C3B8522AF9 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0998443710F96A30F427511C /* Pods_SwiftSignalR.framework */,
+				3941852454853B9099141612 /* Pods_SwiftSignalRTest.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		3B4DCBD81DD623B4008CC256 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3B4DCBDF1DD623B4008CC256 /* SwiftSignalR.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		3B4DCBDA1DD623B4008CC256 /* SwiftSignalR */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3B4DCBEF1DD623B4008CC256 /* Build configuration list for PBXNativeTarget "SwiftSignalR" */;
+			buildPhases = (
+				462C5CC2F6A474DC63C3636F /* [CP] Check Pods Manifest.lock */,
+				3B4DCBD61DD623B4008CC256 /* Sources */,
+				3B4DCBD71DD623B4008CC256 /* Frameworks */,
+				3B4DCBD81DD623B4008CC256 /* Headers */,
+				3B4DCBD91DD623B4008CC256 /* Resources */,
+				2D306DAF4D1386FF013D3FDA /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SwiftSignalR;
+			productName = SwiftSignalR;
+			productReference = 3B4DCBDB1DD623B4008CC256 /* SwiftSignalR.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		3BC3D33E1E152E4C00F8C9C2 /* SwiftSignalRTest */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3BC3D34E1E152E4C00F8C9C2 /* Build configuration list for PBXNativeTarget "SwiftSignalRTest" */;
+			buildPhases = (
+				8A252B25C31E82D0A56C5401 /* [CP] Check Pods Manifest.lock */,
+				3BC3D33B1E152E4C00F8C9C2 /* Sources */,
+				3BC3D33C1E152E4C00F8C9C2 /* Frameworks */,
+				3BC3D33D1E152E4C00F8C9C2 /* Resources */,
+				D9734FCA46CC370A78D48BD5 /* [CP] Embed Pods Frameworks */,
+				16128869DC971DF9D0D840CB /* [CP] Copy Pods Resources */,
+				3B0854031E15548D00B46D6C /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				3B0854021E15548D00B46D6C /* PBXTargetDependency */,
+			);
+			name = SwiftSignalRTest;
+			productName = SwiftSignalRTest;
+			productReference = 3BC3D33F1E152E4C00F8C9C2 /* SwiftSignalRTest.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		3B4DCBD21DD623B4008CC256 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0730;
+				LastUpgradeCheck = 0730;
+				ORGANIZATIONNAME = zsy;
+				TargetAttributes = {
+					3B4DCBDA1DD623B4008CC256 = {
+						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = UBF8T346G9;
+					};
+					3BC3D33E1E152E4C00F8C9C2 = {
+						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = UBF8T346G9;
+					};
+				};
+			};
+			buildConfigurationList = 3B4DCBD51DD623B4008CC256 /* Build configuration list for PBXProject "SwiftSignalR" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 3B4DCBD11DD623B4008CC256;
+			productRefGroup = 3B4DCBDC1DD623B4008CC256 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				3B4DCBDA1DD623B4008CC256 /* SwiftSignalR */,
+				3BC3D33E1E152E4C00F8C9C2 /* SwiftSignalRTest */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		3B4DCBD91DD623B4008CC256 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3BC3D33D1E152E4C00F8C9C2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3BC3D34C1E152E4C00F8C9C2 /* LaunchScreen.storyboard in Resources */,
+				3BC3D3491E152E4C00F8C9C2 /* Assets.xcassets in Resources */,
+				3BC3D3471E152E4C00F8C9C2 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		16128869DC971DF9D0D840CB /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SwiftSignalRTest/Pods-SwiftSignalRTest-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		2D306DAF4D1386FF013D3FDA /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SwiftSignalR/Pods-SwiftSignalR-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		462C5CC2F6A474DC63C3636F /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		8A252B25C31E82D0A56C5401 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		D9734FCA46CC370A78D48BD5 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SwiftSignalRTest/Pods-SwiftSignalRTest-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		3B4DCBD61DD623B4008CC256 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3B2293071E111F6700DFAEC7 /* SSRLock.swift in Sources */,
+				3B4DCBFD1DD75164008CC256 /* NegotiationResponse.swift in Sources */,
+				3B4DCC141DD8A6B7008CC256 /* UrlBuilder.swift in Sources */,
+				3BC3D3361E14F57900F8C9C2 /* SSRLog.swift in Sources */,
+				3B4DCC041DD754D3008CC256 /* Version.swift in Sources */,
+				3B0854071E1569E200B46D6C /* HubConnection.swift in Sources */,
+				3BC3D33A1E152C4300F8C9C2 /* ConnectionExtensions.swift in Sources */,
+				3B4DCC501E054758008CC256 /* ClientTransportBase.swift in Sources */,
+				3B2293091E12462C00DFAEC7 /* HeartBeatMonitor.swift in Sources */,
+				3B08540B1E1637AC00B46D6C /* HubProgressUpdate.swift in Sources */,
+				3B0854151E1814BA00B46D6C /* HubInvocation.swift in Sources */,
+				3B0854051E1563D300B46D6C /* StringExtensions.swift in Sources */,
+				3B4DCC181DE186FC008CC256 /* TransportHelper.swift in Sources */,
+				3B2293051E10D21100DFAEC7 /* Connection.swift in Sources */,
+				3B4DCC081DD756AD008CC256 /* Exception.swift in Sources */,
+				3B08540D1E16474500B46D6C /* HubResult.swift in Sources */,
+				3B4DCC0E1DD83B6B008CC256 /* KeepAliveData.swift in Sources */,
+				3B4DCC561E08DF45008CC256 /* WebSocketTransport.swift in Sources */,
+				3B4DCC521E07D0E9008CC256 /* HttpClient.swift in Sources */,
+				3B0854111E17A0E000B46D6C /* IHubProxy.swift in Sources */,
+				3B4DCC111DD84E48008CC256 /* ConnectionState.swift in Sources */,
+				3B4DCC0B1DD768EF008CC256 /* CancellationToken.swift in Sources */,
+				3B08540F1E16B65E00B46D6C /* Subscription.swift in Sources */,
+				3B4DCC541E07ECD1008CC256 /* IHttpClient.swift in Sources */,
+				3B0854091E1635DB00B46D6C /* IHubConnection.swift in Sources */,
+				3B4DCBFA1DD7514D008CC256 /* IClientTransport.swift in Sources */,
+				3B4DCC001DD75408008CC256 /* IConnection.swift in Sources */,
+				3B0854131E17B1C000B46D6C /* HubProxy.swift in Sources */,
+				3B0854171E19239100B46D6C /* HubRegistrationData.swift in Sources */,
+				3B4DCC1B1DE84933008CC256 /* TransportAbortHandler.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3BC3D33B1E152E4C00F8C9C2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3B0853FE1E153B3F00B46D6C /* TestSwiftSignalRViewController.swift in Sources */,
+				3BC3D3441E152E4C00F8C9C2 /* ViewController.swift in Sources */,
+				3BC3D3421E152E4C00F8C9C2 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		3B0854021E15548D00B46D6C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3B4DCBDA1DD623B4008CC256 /* SwiftSignalR */;
+			targetProxy = 3B0854011E15548D00B46D6C /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		3BC3D3451E152E4C00F8C9C2 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3BC3D3461E152E4C00F8C9C2 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		3BC3D34A1E152E4C00F8C9C2 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3BC3D34B1E152E4C00F8C9C2 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		3B4DCBED1DD623B4008CC256 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		3B4DCBEE1DD623B4008CC256 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		3B4DCBF01DD623B4008CC256 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9DB198719E298A00869D8EA5 /* Pods-SwiftSignalR.debug.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = SwiftSignalR/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = zsy.SwiftSignalR;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		3B4DCBF11DD623B4008CC256 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 04F7EBC31C22AAFFA254EF46 /* Pods-SwiftSignalR.release.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = SwiftSignalR/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = zsy.SwiftSignalR;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		3BC3D34F1E152E4C00F8C9C2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 058E005F2B80D7D56D2220C7 /* Pods-SwiftSignalRTest.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				INFOPLIST_FILE = SwiftSignalRTest/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = zsy.SwiftSignalRTest;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRIP_STYLE = all;
+			};
+			name = Debug;
+		};
+		3BC3D3501E152E4C00F8C9C2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1BC6ED0E647D25877C647AFC /* Pods-SwiftSignalRTest.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				INFOPLIST_FILE = SwiftSignalRTest/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = zsy.SwiftSignalRTest;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRIP_STYLE = all;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		3B4DCBD51DD623B4008CC256 /* Build configuration list for PBXProject "SwiftSignalR" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3B4DCBED1DD623B4008CC256 /* Debug */,
+				3B4DCBEE1DD623B4008CC256 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3B4DCBEF1DD623B4008CC256 /* Build configuration list for PBXNativeTarget "SwiftSignalR" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3B4DCBF01DD623B4008CC256 /* Debug */,
+				3B4DCBF11DD623B4008CC256 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3BC3D34E1E152E4C00F8C9C2 /* Build configuration list for PBXNativeTarget "SwiftSignalRTest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3BC3D34F1E152E4C00F8C9C2 /* Debug */,
+				3BC3D3501E152E4C00F8C9C2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 3B4DCBD21DD623B4008CC256 /* Project object */;
+}
