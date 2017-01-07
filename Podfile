@@ -18,5 +18,6 @@
 
   target 'SwiftSignalRTest' do
       pods
+      pod 'JSQMessagesViewController'
   end
 

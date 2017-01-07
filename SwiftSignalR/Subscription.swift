@@ -8,8 +8,12 @@
 
 import Foundation
 public class Subscription{
-    private var action : ([Any]?->())? = nil
-    public func setAction(action:([Any]?->())?){
+    private var action : ([AnyObject?]?->())? = nil
+    public func setAction(action:([AnyObject?]?->())){
         self.action = action
+    }
+    
+    public func executeAction(args:[AnyObject?]?){
+        self.action!(args)
     }
 }

@@ -170,7 +170,7 @@ public class UrlBuilder{
         
         if connectionData != nil && connectionData?.isEmpty == false{
             tempStr.appendContentsOf("connectionData=")
-            tempStr.appendContentsOf(connectionData!)
+            tempStr.appendContentsOf(connectionData!.encodeURIComponent()!)
             tempStr.appendContentsOf("&")
         }
         return tempStr
@@ -216,7 +216,7 @@ public class UrlBuilder{
         
         if messageId != nil && messageId?.isEmpty == false{
             tempStr.appendContentsOf("messageId=")
-            tempStr.appendContentsOf(connection.messageId!)
+            tempStr.appendContentsOf(connection.messageId!.encodeURIComponent()!)
             tempStr.appendContentsOf("&")
         }
         

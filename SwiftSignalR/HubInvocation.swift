@@ -29,6 +29,11 @@ public class HubInvocation{
     
     public var state: NSMutableDictionary? = nil
     
+    
+    public init(){
+        
+    }
+    
     public init(parameters:NSMutableDictionary){
         
         if parameters[HubInvocation.callbackIdKey] != nil && parameters[HubInvocation.callbackIdKey] is String{
@@ -40,11 +45,11 @@ public class HubInvocation{
         if parameters[HubInvocation.methodKey] != nil && parameters[HubInvocation.methodKey] is String{
             self.method = parameters[HubInvocation.methodKey] as? String
         }
-        if parameters[HubInvocation.argsKey] != nil && parameters[HubInvocation.argsKey] is NSMutableArray{
-            self.args = parameters[HubInvocation.argsKey] as? NSMutableArray
+        if parameters[HubInvocation.argsKey] != nil && parameters[HubInvocation.argsKey] is NSArray{
+            self.args = NSMutableArray(array: (parameters[HubInvocation.argsKey] as? NSArray)!)
         }
-        if parameters[HubInvocation.stateKey] != nil && parameters[HubInvocation.stateKey] is NSMutableDictionary{
-            self.state = parameters[HubInvocation.stateKey] as? NSMutableDictionary
+        if parameters[HubInvocation.stateKey] != nil && parameters[HubInvocation.stateKey] is NSDictionary{
+            self.state = NSMutableDictionary(dictionary: (parameters[HubInvocation.stateKey] as? NSDictionary)!)
         }
     }
     

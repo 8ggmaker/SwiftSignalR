@@ -24,14 +24,6 @@ public class TransportHelper{
             
             let negotiateUrl = try UrlBuilder.buildNegotiate(connection, connectionData: connectionData)
             
-//            Alamofire.request(.GET, negotiateUrl).responseObject{
-//                (response:Result<SSRNegotiationResponse,NSError>) in
-//                if response.value != nil{
-//                    fulfill(response.value!)
-//                }else{
-//                    reject(response.error!)
-//                }
-//            }
             httpClient.get(negotiateUrl,cancellationToken: nil,data: nil).then{
                 res -> Void in
                 let negotiationResp = NegotiationResponse(json: res)
@@ -55,14 +47,6 @@ public class TransportHelper{
             
             let startUrl = try UrlBuilder.buildStart(connection, transport: transport, connectionData: connectionData!)
             
-//            Alamofire.request(.GET, startUrl).responseString{
-//                response in
-//                if response.result.value != nil{
-//                    fulfill(response.result.value!)
-//                }else{
-//                    reject(response.result.error!)
-//                }
-//            }
             httpClient.get(startUrl,cancellationToken: nil,data: nil).then{
                 res in
                 fulfill(res)

@@ -95,7 +95,7 @@ public protocol IConnection:class{
     
     func disconnect()
     
-    func send(data:String, completionHandler:(response:Any?,error:ErrorType?)->())
+    func send(data:String, completionHandler:((response:Any?,error:ErrorType?)->())?)
     
     func onReceived(data: Any?)
     
@@ -113,11 +113,11 @@ public protocol IConnection:class{
     
     func prepareRequest(request:NSMutableURLRequest)-> NSMutableURLRequest
     
-    var JsonDeSerialize: ((String)throws -> Any? ){
+    var JsonDeSerialize: ((String)throws -> AnyObject? ){
         get
         set
     }
-    var JsonSerialize: ((Any)throws -> String?){
+    var JsonSerialize: ((AnyObject)throws -> String?){
         get
         set
     }

@@ -18,7 +18,7 @@ public protocol IClientTransport{
     
     func start(connection: IConnection, connectionData:String, disconnectToken: CancellationToken)throws-> Promise<Void>
     
-    func send(connection: IConnection, data:String, connectionData:String,completionHandler:(response:Any?,error:ErrorType?)->Void)
+    func send(connection: IConnection, data:String, connectionData:String,completionHandler:((response:Any?,error:ErrorType?)->())?)
     
     func abort(connection: IConnection, timeout:NSTimeInterval,connectionData:String) throws
     

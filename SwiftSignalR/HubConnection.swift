@@ -130,11 +130,21 @@ public class HubConnection: Connection, IHubConnection{
                 let invocation = HubInvocation(parameters: dic)
                 var hubProxy: HubProxy? = nil
                 
-                if invocation.hub != nil && hubs[invocation.hub!] != nil{
+                if invocation.hub != nil && hubs[invocation.hub!.lowercaseString] != nil{
+                    hubProxy = hubs[invocation.hub!.lowercaseString] as? HubProxy
                     if invocation.state != nil{
-                        // todo
+                         hubProxy?.setState(invocation.state!)
                     }
+                    var params: [AnyObject?]? = nil
+                    if invocation.args != nil{
+                        params = []
+                        for arg in invocation.args!{
+                            params?.append(arg)
+                        }
+                    }
+                    hubProxy?.invokeEvent(invocation.method!, args: params)
                 }
+                
             }
             
             super.onReceived(data)
@@ -149,7 +159,7 @@ public class HubConnection: Connection, IHubConnection{
             return HubRegistrationData(name: key)
         }).map({
             registrationData -> Void in
-            data.addObject(registrationData)
+            data.addObject(registrationData.prepareForJson())
         })
         do{
             return try self.JsonSerialize(data)!

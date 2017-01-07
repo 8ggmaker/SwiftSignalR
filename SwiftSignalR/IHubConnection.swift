@@ -7,7 +7,7 @@
 //
 
 import Foundation
-public protocol IHubConnection:class{
+public protocol IHubConnection:class, IConnection{
     func registerCallback(callback: (HubResult?->()))-> String?
     
     func removeCallback(callbackId:String)

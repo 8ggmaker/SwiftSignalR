@@ -8,12 +8,12 @@
 
 import Foundation
 public protocol IHubProxy:class {
-    func on(method:String,action:([Any]?->()))-> Subscription?
+    func on(method:String,action:([AnyObject?]?->()))-> Subscription?
     
-    func invoke(method:String,params: Any?...)
+    func invoke(method:String,params:[AnyObject?]?)
     
-    func invoke(method:String,params:Any?,completionHandler:((reponse:Any?,error:ErrorType?)->())?)
+    func invoke(method:String,params:[AnyObject?]?,completionHandler:((response:Any?,error:ErrorType?)->())?)
     
-    func invoke<T>(method:String,params:Any?...,completionHandler:((respones:T?,error:ErrorType?)->())?)
-    
+    func invoke(method:String,onProgress:(Any?->())?,params:[AnyObject?]?,completionHandler:((response:Any?,error:ErrorType?)->())?)
+         
 }

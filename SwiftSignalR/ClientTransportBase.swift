@@ -89,7 +89,7 @@ public class ClientBaseTransport: NSObject,IClientTransport{
         fatalError("must override")
     }
     
-    public func send(connection: IConnection, data:String, connectionData:String,completionHandler:(response:Any?,error:ErrorType?)->Void){
+    public func send(connection: IConnection, data:String, connectionData:String,completionHandler:((response:Any?,error:ErrorType?)->())?){
         fatalError("must override")
 
     }

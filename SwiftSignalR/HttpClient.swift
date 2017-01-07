@@ -21,17 +21,15 @@ public class HttpClient: IHttpClient{
     
     private func sendRequest(method:Alamofire.Method,url:String,cacellationToken:CancellationToken?,data:String?) ->Promise<String>{
         
-        //reference:http://stackoverflow.com/questions/29168068/unexpectedly-found-nil-while-unwrapping-an-optional-value-using-alamofire
-        let allowedUrl = url.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!
         return Promise{
             fulfill, reject in
             var req: Request
             
             if method == .GET{
-                req = Alamofire.request(method, allowedUrl)
+                req = Alamofire.request(method, url)
                 
             }else{
-                req = Alamofire.request(method, allowedUrl, parameters: [:], encoding: .Custom({
+                req = Alamofire.request(method, url, parameters: [:], encoding: .Custom({
                     (convertible,params) in
                     let mutableRequest = convertible.URLRequest.copy() as! NSMutableURLRequest
                     

@@ -15,15 +15,17 @@ public class WebSocketTransport: ClientBaseTransport{
     private var websocket: SRWebSocket?
     
     private var socketWorkerQueue:dispatch_queue_t = dispatch_queue_create("socketrocketwork", nil)
-        
+    
+    private var reconnectTaskQueue: dispatch_queue_t = dispatch_queue_create("reconnecttask", nil)
     
     private var reconnectDelay: NSTimeInterval!
     
-    private var shouldBreakReconnecting: Bool = false
+    private var reconnectLock: SSRLock!
     
     public init(httpClient: IHttpClient) {
         websocket = nil
         reconnectDelay = NSTimeInterval(2)
+        reconnectLock = SSRLock()
         
         super.init(name: "webSockets", httpClient: httpClient)
     }
@@ -45,14 +47,18 @@ public class WebSocketTransport: ClientBaseTransport{
         }
     }
     
-    public override func send(connection: IConnection, data:String, connectionData:String,completionHandler:(response:Any?,error:ErrorType?)->Void){
+    public override func send(connection: IConnection, data:String, connectionData:String,completionHandler:((response:Any?,error:ErrorType?)->())?){
         if self.websocket == nil || self.websocket?.readyState != SRReadyState.OPEN{
             let err = CommonException.InvalidOperationException(exception: "websocket not initialized")
-            completionHandler(response: nil, error: err)
+            if completionHandler != nil{
+                completionHandler!(response: nil, error: err)
+            }
         }
         
         websocket?.send(data)
-        completionHandler(response: nil,error: nil)
+        if completionHandler != nil{
+            completionHandler!(response: nil,error: nil)
+        }
     }
     
     public override  func lostConnection(connection: IConnection) {
@@ -77,6 +83,7 @@ public class WebSocketTransport: ClientBaseTransport{
         let wsUrl = UrlBuilder.convertToWebSocketUri(url)
         if wsUrl == nil{
             startPromiseWrapper.reject(CommonException.ArgumentNullException(exception: "wsurl"))
+            return startPromiseWrapper.promise
         }
         
         let req = connection.prepareRequest(NSMutableURLRequest(URL: NSURL(string: wsUrl!)!))
@@ -92,7 +99,6 @@ public class WebSocketTransport: ClientBaseTransport{
             if self.websocket != nil{
                 self.websocket?.closeWithCode(SRStatusCodeNormal.rawValue, reason: "request cancelled")
                 self.websocket = nil
-                self.shouldBreakReconnecting = true
             }
         })
         
@@ -109,30 +115,32 @@ public class WebSocketTransport: ClientBaseTransport{
     
     private func doReconnect(){
         
-        do{
+        
+        dispatch_sync(reconnectTaskQueue){
             
-            
-            let reconnectUrl = try UrlBuilder.buildReconnect(connectionInfo.connection, transport: name, connectionData: connectionInfo.connectionData)
-            
-            shouldBreakReconnecting = false
-            
-            connectionInfo.disconnectToken.register({
-                ()->Void in
-                self.shouldBreakReconnecting = true
-            })
-            
-            while try TransportHelper.verifyLastActive(connectionInfo.connection) && connectionInfo.connection.ensureReconnecting() && !shouldBreakReconnecting{
-                after(reconnectDelay).then{
-                    self.performConnect(self.connectionInfo.connection, url: reconnectUrl)
-                    }.error{
-                        err in
-                        self.connectionInfo.connection.onError(err)
+            do{
+                self.reconnectLock.lock()
+                
+                let reconnectUrl = try UrlBuilder.buildReconnect(self.connectionInfo.connection, transport: self.name, connectionData: self.connectionInfo.connectionData)
+                
+                while try TransportHelper.verifyLastActive(self.connectionInfo.connection) && self.connectionInfo.connection.ensureReconnecting(){
+                    after(self.reconnectDelay).then{
+                        self.performConnect(self.connectionInfo.connection, url: reconnectUrl)
+                        }.then{
+                            self.reconnectLock.unlock()
+                        }.error{
+                            err in
+                            self.reconnectLock.unlock()
+                            self.connectionInfo.connection.onError(err)
+                    }
                 }
+                
             }
-            
-        }
-        catch let err{
-            connectionInfo.connection.onError(err)
+            catch let err{
+                self.reconnectLock.unlock()
+                self.connectionInfo.connection.onError(err)
+            }
+
         }
         
     }
@@ -156,8 +164,14 @@ extension WebSocketTransport:SRWebSocketDelegate{
         if self.connected == false{
             self.startPromiseWrapper.reject(error)
         }
-        self.connectionInfo.connection.onError(error)
         
+        self.connectionInfo.connection.onError(error)
+
+        if abortHandler.TryCompleteAbort(){
+            return
+        }
+        
+        doReconnect()
         
     }
     public func webSocket(webSocket: SRWebSocket!, didCloseWithCode code: Int, reason: String!, wasClean: Bool){

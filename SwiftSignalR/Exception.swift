@@ -16,4 +16,5 @@ enum CommonException:ErrorType{
 
 
 enum SwiftSignalRException:ErrorType {
+    case ServerOperationException(exception:String,data:Any?)
 }

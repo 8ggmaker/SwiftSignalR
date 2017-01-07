@@ -39,10 +39,10 @@
 		3B4DCC521E07D0E9008CC256 /* HttpClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4DCC511E07D0E9008CC256 /* HttpClient.swift */; };
 		3B4DCC541E07ECD1008CC256 /* IHttpClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4DCC531E07ECD1008CC256 /* IHttpClient.swift */; };
 		3B4DCC561E08DF45008CC256 /* WebSocketTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4DCC551E08DF45008CC256 /* WebSocketTransport.swift */; };
+		3BA523541E20F37E00DAE06E /* TestLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA523531E20F37E00DAE06E /* TestLoginViewController.swift */; };
 		3BC3D3361E14F57900F8C9C2 /* SSRLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC3D3351E14F57900F8C9C2 /* SSRLog.swift */; };
 		3BC3D33A1E152C4300F8C9C2 /* ConnectionExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC3D3391E152C4300F8C9C2 /* ConnectionExtensions.swift */; };
 		3BC3D3421E152E4C00F8C9C2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC3D3411E152E4C00F8C9C2 /* AppDelegate.swift */; };
-		3BC3D3441E152E4C00F8C9C2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC3D3431E152E4C00F8C9C2 /* ViewController.swift */; };
 		3BC3D3471E152E4C00F8C9C2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3BC3D3451E152E4C00F8C9C2 /* Main.storyboard */; };
 		3BC3D3491E152E4C00F8C9C2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3BC3D3481E152E4C00F8C9C2 /* Assets.xcassets */; };
 		3BC3D34C1E152E4C00F8C9C2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3BC3D34A1E152E4C00F8C9C2 /* LaunchScreen.storyboard */; };
@@ -112,11 +112,12 @@
 		3B4DCC511E07D0E9008CC256 /* HttpClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpClient.swift; sourceTree = "<group>"; };
 		3B4DCC531E07ECD1008CC256 /* IHttpClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IHttpClient.swift; sourceTree = "<group>"; };
 		3B4DCC551E08DF45008CC256 /* WebSocketTransport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebSocketTransport.swift; sourceTree = "<group>"; };
+		3BA523501E20EC8000DAE06E /* SwiftSignalRTest-bridging-header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SwiftSignalRTest-bridging-header.h"; sourceTree = "<group>"; };
+		3BA523531E20F37E00DAE06E /* TestLoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestLoginViewController.swift; sourceTree = "<group>"; };
 		3BC3D3351E14F57900F8C9C2 /* SSRLog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SSRLog.swift; sourceTree = "<group>"; };
 		3BC3D3391E152C4300F8C9C2 /* ConnectionExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectionExtensions.swift; sourceTree = "<group>"; };
 		3BC3D33F1E152E4C00F8C9C2 /* SwiftSignalRTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftSignalRTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3BC3D3411E152E4C00F8C9C2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		3BC3D3431E152E4C00F8C9C2 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		3BC3D3461E152E4C00F8C9C2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		3BC3D3481E152E4C00F8C9C2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3BC3D34B1E152E4C00F8C9C2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -264,12 +265,13 @@
 			isa = PBXGroup;
 			children = (
 				3BC3D3411E152E4C00F8C9C2 /* AppDelegate.swift */,
-				3BC3D3431E152E4C00F8C9C2 /* ViewController.swift */,
 				3BC3D3451E152E4C00F8C9C2 /* Main.storyboard */,
 				3BC3D3481E152E4C00F8C9C2 /* Assets.xcassets */,
 				3BC3D34A1E152E4C00F8C9C2 /* LaunchScreen.storyboard */,
 				3BC3D34D1E152E4C00F8C9C2 /* Info.plist */,
 				3B0853FD1E153B3F00B46D6C /* TestSwiftSignalRViewController.swift */,
+				3BA523501E20EC8000DAE06E /* SwiftSignalRTest-bridging-header.h */,
+				3BA523531E20F37E00DAE06E /* TestLoginViewController.swift */,
 			);
 			path = SwiftSignalRTest;
 			sourceTree = "<group>";
@@ -362,11 +364,9 @@
 				TargetAttributes = {
 					3B4DCBDA1DD623B4008CC256 = {
 						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = UBF8T346G9;
 					};
 					3BC3D33E1E152E4C00F8C9C2 = {
 						CreatedOnToolsVersion = 7.3.1;
-						DevelopmentTeam = UBF8T346G9;
 					};
 				};
 			};
@@ -530,7 +530,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3B0853FE1E153B3F00B46D6C /* TestSwiftSignalRViewController.swift in Sources */,
-				3BC3D3441E152E4C00F8C9C2 /* ViewController.swift in Sources */,
+				3BA523541E20F37E00DAE06E /* TestLoginViewController.swift in Sources */,
 				3BC3D3421E152E4C00F8C9C2 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

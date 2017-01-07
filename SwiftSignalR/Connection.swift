@@ -296,17 +296,21 @@ public class Connection: IConnection{
         
     }
     
-    public func send(data:String, completionHandler:(response:Any?,error:ErrorType?)->()){
+    public func send(data:String, completionHandler:((response:Any?,error:ErrorType?)->())?){
         var error: ErrorType? = nil
         if state == .Disconnected{
             error = CommonException.InvalidOperationException(exception: "Data cannot be sent, connection disconnected")
-            completionHandler(response: nil,error: error)
+            if completionHandler != nil{
+                completionHandler!(response: nil,error: error)
+            }
             return
         }
         
         if state == .Connecting{
             error = CommonException.InvalidOperationException(exception: "Data cannot be sent, connection connecting")
-            completionHandler(response: nil, error: error)
+            if completionHandler != nil{
+                completionHandler!(response: nil, error: error)
+            }
             return
         }
         
@@ -315,12 +319,15 @@ public class Connection: IConnection{
     }
     
     
-    public func send(data:Any,completionHandler:(response:Any?,error:ErrorType?)->()){
+    public func send(data:AnyObject,completionHandler:((response:Any?,error:ErrorType?)->())?){
         do{
-            let dataStr = try JsonSerialize(data)
-            send(dataStr, completionHandler: completionHandler)
+            if let dataStr = try JsonSerialize(data){
+                send(dataStr, completionHandler: completionHandler)
+            }
         }catch let err{
-            completionHandler(response: nil, error: err)
+            if completionHandler != nil{
+                completionHandler!(response: nil, error: err)
+            }
         }
     }
     
@@ -475,8 +482,8 @@ public class Connection: IConnection{
     
     //MARK: JSON OPERATION
     
-    public var JsonDeSerialize: ((String)throws -> Any? ) = {
-        str throws -> Any? in
+    public var JsonDeSerialize: ((String)throws -> AnyObject? ) = {
+        str throws -> AnyObject? in
         if let data = str.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false){
             if let json = try? NSJSONSerialization.JSONObjectWithData(data, options: []){
                 return json
@@ -485,16 +492,14 @@ public class Connection: IConnection{
         return nil
     }
     
-    public var JsonSerialize: ((Any)throws -> String?) = {
-        any throws -> String? in
+    public var JsonSerialize: ((AnyObject)throws -> String?) = {
+        anyObj throws -> String? in
         
-        if any is AnyObject{
-            let anyObj = any as! AnyObject
-            if let jsonData = try? NSJSONSerialization.dataWithJSONObject(anyObj, options: NSJSONWritingOptions()){
-                if let res = NSString(data: jsonData, encoding: NSUTF8StringEncoding) as? String{
-                    let range = res.startIndex.advancedBy(1) ..< res.endIndex.advancedBy(-1)
-                    return res.substringWithRange(range)
-                }
+        let arr = [anyObj]
+        if let jsonData = try? NSJSONSerialization.dataWithJSONObject(arr, options: NSJSONWritingOptions()){
+            if let res = NSString(data: jsonData, encoding: NSUTF8StringEncoding) as? String{
+                let range = res.startIndex.advancedBy(1) ..< res.endIndex.advancedBy(-1)
+                return res.substringWithRange(range)
             }
         }
         

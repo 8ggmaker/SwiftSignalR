@@ -1,6 +1,9 @@
 PODS:
   - Alamofire (3.5.1)
   - EVReflection (2.46.0)
+  - JSQMessagesViewController (7.3.4):
+    - JSQSystemSoundPlayer (~> 2.0.1)
+  - JSQSystemSoundPlayer (2.0.1)
   - OMGHTTPURLRQ (3.2.2):
     - OMGHTTPURLRQ/RQ (= 3.2.2)
   - OMGHTTPURLRQ/FormURLEncode (3.2.2)
@@ -25,16 +28,19 @@ PODS:
 DEPENDENCIES:
   - Alamofire (= 3.5.1)
   - EVReflection (~> 2.6)
+  - JSQMessagesViewController
   - PromiseKit (~> 3.5)
   - SocketRocket
 
 SPEC CHECKSUMS:
   Alamofire: 0dfba1184a543e2aa160f4e39cac4e8aba48d223
   EVReflection: 17b377f0dd86a0f6ceccab574d0e22962a2f107e
+  JSQMessagesViewController: 39fed975e3c9f8eba7292071e29eeb541d105e66
+  JSQSystemSoundPlayer: c5850e77a4363ffd374cd851154b9af93264ed8d
   OMGHTTPURLRQ: edb14c7d28add69226b79d826f930805927a0ffa
   PromiseKit: bc7493edd85b5234d76b88d30f6a2aca91baf6c7
   SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
 
-PODFILE CHECKSUM: 275d8a315f669bf0dfdecbe4584a02a926dfeb9f
+PODFILE CHECKSUM: 35df11d5c06c553759983c3ee95d791852d6773a
 
 COCOAPODS: 1.0.1

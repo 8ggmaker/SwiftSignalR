@@ -1,9 +1,9 @@
 EMBEDDED_CONTENT_CONTAINS_SWIFT = YES
-FRAMEWORK_SEARCH_PATHS = $(inherited) "$PODS_CONFIGURATION_BUILD_DIR/Alamofire" "$PODS_CONFIGURATION_BUILD_DIR/EVReflection" "$PODS_CONFIGURATION_BUILD_DIR/OMGHTTPURLRQ" "$PODS_CONFIGURATION_BUILD_DIR/PromiseKit" "$PODS_CONFIGURATION_BUILD_DIR/SocketRocket"
+FRAMEWORK_SEARCH_PATHS = $(inherited) "$PODS_CONFIGURATION_BUILD_DIR/Alamofire" "$PODS_CONFIGURATION_BUILD_DIR/EVReflection" "$PODS_CONFIGURATION_BUILD_DIR/JSQMessagesViewController" "$PODS_CONFIGURATION_BUILD_DIR/JSQSystemSoundPlayer" "$PODS_CONFIGURATION_BUILD_DIR/OMGHTTPURLRQ" "$PODS_CONFIGURATION_BUILD_DIR/PromiseKit" "$PODS_CONFIGURATION_BUILD_DIR/SocketRocket"
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
 LD_RUNPATH_SEARCH_PATHS = $(inherited) '@executable_path/Frameworks' '@loader_path/Frameworks'
-OTHER_CFLAGS = $(inherited) -iquote "$PODS_CONFIGURATION_BUILD_DIR/Alamofire/Alamofire.framework/Headers" -iquote "$PODS_CONFIGURATION_BUILD_DIR/EVReflection/EVReflection.framework/Headers" -iquote "$PODS_CONFIGURATION_BUILD_DIR/OMGHTTPURLRQ/OMGHTTPURLRQ.framework/Headers" -iquote "$PODS_CONFIGURATION_BUILD_DIR/PromiseKit/PromiseKit.framework/Headers" -iquote "$PODS_CONFIGURATION_BUILD_DIR/SocketRocket/SocketRocket.framework/Headers"
-OTHER_LDFLAGS = $(inherited) -framework "Alamofire" -framework "EVReflection" -framework "OMGHTTPURLRQ" -framework "PromiseKit" -framework "SocketRocket"
+OTHER_CFLAGS = $(inherited) -iquote "$PODS_CONFIGURATION_BUILD_DIR/Alamofire/Alamofire.framework/Headers" -iquote "$PODS_CONFIGURATION_BUILD_DIR/EVReflection/EVReflection.framework/Headers" -iquote "$PODS_CONFIGURATION_BUILD_DIR/JSQMessagesViewController/JSQMessagesViewController.framework/Headers" -iquote "$PODS_CONFIGURATION_BUILD_DIR/JSQSystemSoundPlayer/JSQSystemSoundPlayer.framework/Headers" -iquote "$PODS_CONFIGURATION_BUILD_DIR/OMGHTTPURLRQ/OMGHTTPURLRQ.framework/Headers" -iquote "$PODS_CONFIGURATION_BUILD_DIR/PromiseKit/PromiseKit.framework/Headers" -iquote "$PODS_CONFIGURATION_BUILD_DIR/SocketRocket/SocketRocket.framework/Headers"
+OTHER_LDFLAGS = $(inherited) -framework "Alamofire" -framework "EVReflection" -framework "JSQMessagesViewController" -framework "JSQSystemSoundPlayer" -framework "OMGHTTPURLRQ" -framework "PromiseKit" -framework "SocketRocket"
 OTHER_SWIFT_FLAGS = $(inherited) "-D" "COCOAPODS"
 PODS_BUILD_DIR = $BUILD_DIR
 PODS_CONFIGURATION_BUILD_DIR = $PODS_BUILD_DIR/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)
