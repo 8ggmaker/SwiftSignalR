@@ -255,16 +255,19 @@ public class Connection: IConnection{
     
     public func stop(timeout:NSTimeInterval){
         do {
-           try startLock.calculateLockedOrFail({
-            () -> Void in
-            if self.state == .Disconnected{
-                return
+            var alreadyStopped = false
+            try startLock.calculateLockedOrFail({
+                () -> Void in
+                if self.state == .Disconnected{
+                    alreadyStopped = true
+                    return
+                }})
+            if !alreadyStopped{
+                try self.transport.abort(self, timeout: timeout, connectionData: self.connectionData)
+                self.disconnect()
             }
             
-            try self.transport.abort(self, timeout: timeout, connectionData: self.connectionData)
-            self.disconnect()
             
-            })
         }catch{
             
         }
@@ -296,10 +299,10 @@ public class Connection: IConnection{
                 self.groupsToken = ""
                 self.messageId = ""
                 self.connectionData = ""
-                
-                self.onClosed()
+
             }
         })
+        self.onClosed()
         
     }
     

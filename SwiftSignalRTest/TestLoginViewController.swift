@@ -100,6 +100,16 @@ class TestLoginViewController: UIViewController {
                 }
                 
             }
+            
+            connection.closed = {
+                do{
+                    try self.connection.start()
+
+                }catch{
+                    
+                }
+            }
+            
             try connection.start()
             
         }catch let err{

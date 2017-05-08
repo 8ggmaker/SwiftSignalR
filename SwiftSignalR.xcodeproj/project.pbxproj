@@ -45,6 +45,7 @@
 		3BB3D78B1EBC894700A9F2CC /* SwiftSignalRUnitTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB3D78A1EBC894700A9F2CC /* SwiftSignalRUnitTest.swift */; };
 		3BB3D78D1EBC894700A9F2CC /* SwiftSignalR.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B4DCBDB1DD623B4008CC256 /* SwiftSignalR.framework */; };
 		3BB3D7941EBCA15000A9F2CC /* ShitPerson.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB3D7931EBCA15000A9F2CC /* ShitPerson.swift */; };
+		3BB3D7961EC02B8400A9F2CC /* LongPollingTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB3D7951EC02B8400A9F2CC /* LongPollingTransport.swift */; };
 		3BC3D3361E14F57900F8C9C2 /* SSRLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC3D3351E14F57900F8C9C2 /* SSRLog.swift */; };
 		3BC3D33A1E152C4300F8C9C2 /* ConnectionExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC3D3391E152C4300F8C9C2 /* ConnectionExtensions.swift */; };
 		3BC3D3421E152E4C00F8C9C2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC3D3411E152E4C00F8C9C2 /* AppDelegate.swift */; };
@@ -134,6 +135,7 @@
 		3BB3D78A1EBC894700A9F2CC /* SwiftSignalRUnitTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftSignalRUnitTest.swift; sourceTree = "<group>"; };
 		3BB3D78C1EBC894700A9F2CC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3BB3D7931EBCA15000A9F2CC /* ShitPerson.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShitPerson.swift; sourceTree = "<group>"; };
+		3BB3D7951EC02B8400A9F2CC /* LongPollingTransport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LongPollingTransport.swift; sourceTree = "<group>"; };
 		3BC3D3351E14F57900F8C9C2 /* SSRLog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SSRLog.swift; sourceTree = "<group>"; };
 		3BC3D3391E152C4300F8C9C2 /* ConnectionExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectionExtensions.swift; sourceTree = "<group>"; };
 		3BC3D33F1E152E4C00F8C9C2 /* SwiftSignalRTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftSignalRTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -256,6 +258,7 @@
 				3B4DCC1A1DE84933008CC256 /* TransportAbortHandler.swift */,
 				3B4DCC4F1E054758008CC256 /* ClientTransportBase.swift */,
 				3B4DCC551E08DF45008CC256 /* WebSocketTransport.swift */,
+				3BB3D7951EC02B8400A9F2CC /* LongPollingTransport.swift */,
 			);
 			name = Transports;
 			sourceTree = "<group>";
@@ -625,6 +628,7 @@
 				3BB3D7811EB9C82700A9F2CC /* Jsonable.swift in Sources */,
 				3B0854071E1569E200B46D6C /* HubConnection.swift in Sources */,
 				3BC3D33A1E152C4300F8C9C2 /* ConnectionExtensions.swift in Sources */,
+				3BB3D7961EC02B8400A9F2CC /* LongPollingTransport.swift in Sources */,
 				3B4DCC501E054758008CC256 /* ClientTransportBase.swift in Sources */,
 				3B2293091E12462C00DFAEC7 /* HeartBeatMonitor.swift in Sources */,
 				3B08540B1E1637AC00B46D6C /* HubProgressUpdate.swift in Sources */,
@@ -918,6 +922,7 @@
 				3BB3D7921EBC894700A9F2CC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		3BC3D34E1E152E4C00F8C9C2 /* Build configuration list for PBXNativeTarget "SwiftSignalRTest" */ = {
 			isa = XCConfigurationList;
