@@ -34,7 +34,7 @@ public class HeartBeatMonitor{
         if timer != nil{
             timer.invalidate()
         }
-        timer = NSTimer(timeInterval: beatInterval, target: self, selector: #selector(HeartBeatMonitor.heatBeat), userInfo: nil, repeats: true)
+        timer = NSTimer(timeInterval: beatInterval, target: self, selector: #selector(heatBeat), userInfo: nil, repeats: true)
     }
     
     private func clearFlags(){

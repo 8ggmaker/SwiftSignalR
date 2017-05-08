@@ -7,56 +7,58 @@
 //
 
 import Foundation
-import PromiseKit
 import Alamofire
 public class HttpClient: IHttpClient{
     
-    public func get(url:String,cancellationToken:CancellationToken? = nil,data:String? = nil) -> Promise<String>{
-        return sendRequest(.GET, url: url, cacellationToken: cancellationToken, data: nil)
+    private var requestManager: Alamofire.Manager
+    
+    public init(){
+        self.requestManager = Alamofire.Manager(configuration:NSURLSessionConfiguration.defaultSessionConfiguration())
+        self.requestManager.startRequestsImmediately = false
     }
     
-    public func post(url:String,cancellationToken:CancellationToken? = nil,data:String? = nil) -> Promise<String>{
-        return sendRequest(.POST, url: url, cacellationToken: cancellationToken, data: data)
+    public func get(url:String,cancellationToken:CancellationToken? = nil,data:String? = nil,completion:(ErrorType?,String?)->()) -> Request{
+        return sendRequest(.GET, url: url, cacellationToken: cancellationToken, data: nil,completion: completion)
     }
     
-    private func sendRequest(method:Alamofire.Method,url:String,cacellationToken:CancellationToken?,data:String?) ->Promise<String>{
+    public func post(url:String,cancellationToken:CancellationToken? = nil,data:String? = nil,completion:(ErrorType?,String?)->()) -> Request{
+        return sendRequest(.POST, url: url, cacellationToken: cancellationToken, data: data,completion: completion)
+    }
+    
+    private func sendRequest(method:Alamofire.Method,url:String,cacellationToken:CancellationToken?,data:String?,completion:(ErrorType?,String?)->())-> Request{
         
-        return Promise{
-            fulfill, reject in
-            var req: Request
-            
-            if method == .GET{
-                req = Alamofire.request(method, url)
+        var req: Request
+        
+        if method == .GET{
+            req = Alamofire.request(method,url)
+        }else{
+            req = Alamofire.request(method, url, parameters: [:], encoding: .Custom({
+                (convertible,params) in
+                let mutableRequest = convertible.URLRequest.copy() as! NSMutableURLRequest
                 
-            }else{
-                req = Alamofire.request(method, url, parameters: [:], encoding: .Custom({
-                    (convertible,params) in
-                    let mutableRequest = convertible.URLRequest.copy() as! NSMutableURLRequest
-                    
-                    if data != nil && data?.isEmpty == false{
-                        mutableRequest.HTTPBody = data!.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)
-                    }
-                    
-                    return (mutableRequest,nil)
-                }))
-            }
-            
-            if cacellationToken != nil{
-                cacellationToken?.register({
-                    () -> Void in
-                    req.cancel()
-                })
-            }
-            
-            req.responseString(){
-                response in
-                if response.result.value != nil{
-                    fulfill(response.result.value!)
-                }else{
-                    reject(response.result.error!)
+                if data != nil && data?.isEmpty == false{
+                    mutableRequest.HTTPBody = data!.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)
                 }
-            }
+                
+                return (mutableRequest,nil)
+            }))
         }
+        
+        if cacellationToken != nil{
+            cacellationToken?.register({
+                () -> Void in
+                req.cancel()
+            })
+        }
+        
+        req.responseString(){
+            response in
+            completion(response.result.error,response.result.value)
+        }
+        
+        req.resume()
+        
+        return req
     }
 }
 

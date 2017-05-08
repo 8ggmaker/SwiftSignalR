@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import PromiseKit
 public protocol IConnection:class{
     var clientProtocol: Version{
         get

@@ -9,7 +9,7 @@
 import Foundation
 public class HubProxy:IHubProxy{
     
-    private let state: NSMutableDictionary = NSMutableDictionary()
+    private var state = [String:AnyObject]()
     
     private var subscriptions: Dictionary<String,Subscription> = Dictionary<String,Subscription>()
     
@@ -41,10 +41,11 @@ public class HubProxy:IHubProxy{
         return nil
     }
     
-    public func setState(dic:NSMutableDictionary){
-        for (key,val) in dic{
-            state[key as! NSCopying] = val
-        }
+    public func setState(dic:Dictionary<String,AnyObject>){
+//        for (key,val) in dic{
+//            state[key as! NSCopying] = val
+//        }
+        state = dic
     }
     
     public func invoke(method:String,params: [AnyObject?]?){
@@ -56,7 +57,7 @@ public class HubProxy:IHubProxy{
     }
     
     public func invoke(method:String,onProgress:(Any?->())?,params:[AnyObject?]?,completionHandler:((response:Any?,error:ErrorType?)->())?){
-        var callbackId: String? = nil
+        var callbackId: String?
         if completionHandler != nil{
             callbackId = connection.registerCallback({
                 res -> Void in
@@ -82,27 +83,21 @@ public class HubProxy:IHubProxy{
             
         }
         do{
-            let hubInvocationData  = HubInvocation()
-            hubInvocationData.callbackId = callbackId
-            hubInvocationData.hub = name
-            hubInvocationData.method = method
-            hubInvocationData.args = NSMutableArray()
+            var validParams: [AnyObject]? = nil
             if params != nil{
-                for param in params!{
+                validParams = []
+                for param in params! {
                     if param == nil{
-                        hubInvocationData.args?.addObject("null")
+                        validParams?.append(NSNull())
                     }else{
-//                       try hubInvocationData.args?.addObject(connection.JsonSerialize(param!)!)
-                        hubInvocationData.args?.addObject(param!)
-
+                        validParams?.append(param!)
                     }
                 }
             }
-            if state.count != 0{
-                hubInvocationData.state = state
-            }
             
-            let val = try connection.JsonSerialize(hubInvocationData.prepareForJson())
+            let hubInvocationData  = HubInvocation(callbackId:callbackId,hub:name,method:method,args:validParams,state:state)
+            
+            let val = try connection.JsonSerialize(hubInvocationData)
             
             connection.send(val!, completionHandler: nil)
             

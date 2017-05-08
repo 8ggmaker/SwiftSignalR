@@ -8,7 +8,6 @@
 
 import Foundation
 import UIKit
-import PromiseKit
 
 public class TransportConnectionInfo{
     var connection: IConnection!
@@ -19,22 +18,6 @@ public class TransportConnectionInfo{
         self.connection = connection
         self.connectionData = connectionData
         self.disconnectToken = disconnectToken
-    }
-}
-
-public class TransportStartPromiseWapper<T> {
-    let (promise,fulfillHodler,rejectHoder) = Promise<T>.pendingPromise()
-    
-    var retainCycle: AnyObject? = nil
-    
-    public func fulfill(t:T)->Void{
-        fulfillHodler(t)
-        retainCycle = nil
-    }
-    
-    public func reject(e:ErrorType)-> Void{
-        rejectHoder(e)
-        retainCycle = nil
     }
 }
 
@@ -52,10 +35,10 @@ public class ClientBaseTransport: NSObject,IClientTransport{
     final var finished: Bool = false
 
     final var connectionInfo: TransportConnectionInfo! = nil
-    
-    final var startPromiseWrapper: TransportStartPromiseWapper<Void>! = nil
-    
+        
     final var connected:Bool = false
+    
+    final var completion:(ErrorType?->())? = nil
 
 
     public init(name:String,httpClient:IHttpClient){
@@ -77,15 +60,15 @@ public class ClientBaseTransport: NSObject,IClientTransport{
         }
     }
 
-    public func negotiate(connection: IConnection, connectionData: String)-> Promise<NegotiationResponse>{
-         return transportHelper.getNegotiationResponse(self.httpClient,connection:connection,connectionData: connectionData)
+    public func negotiate(connection: IConnection, connectionData: String, completion:(ErrorType?,NegotiationResponse?)->()){
+         return transportHelper.getNegotiationResponse(self.httpClient,connection:connection,connectionData: connectionData,completion: completion)
     }
 
-    public func initRecived(connection:IConnection,connectionData:String) -> Promise<String>{
-        return transportHelper.getStartResponse(httpClient, connection: connection, connectionData: connectionData, transport: transportName)
+    public func initRecived(connection:IConnection,connectionData:String,completion:(ErrorType?,String?)->()){
+        return transportHelper.getStartResponse(httpClient, connection: connection, connectionData: connectionData, transport: transportName,completion:completion)
     }
     
-    public func start(connection: IConnection, connectionData:String, disconnectToken: CancellationToken)throws -> Promise<Void>{
+    public func start(connection: IConnection, connectionData:String, disconnectToken: CancellationToken,completion:(ErrorType?)->()){
         fatalError("must override")
     }
     
@@ -113,43 +96,41 @@ public class ClientBaseTransport: NSObject,IClientTransport{
         var shouldReconnect = false
         
         do{
-            let res = try connection.JsonDeSerialize(message)
-            if res is NSDictionary == true{
-                let resDic = res as! NSDictionary
-                if resDic["I"] != nil{
-                    connection.onReceived(resDic)
+            if let res = try connection.JsonDeSerialize(message) as? [String:AnyObject]{
+                if res["I"] != nil{
+                    connection.onReceived(res)
                     return false
                 }
                 
-                if resDic["T"] != nil && (resDic["T"] as! String) == "1"{
+                if res["T"] != nil && res["T"] as? String == "1"{
                     shouldReconnect = true
                 }
                 
-                if let groupsToken = resDic["G"]{
-                    connection.groupsToken = (groupsToken as! String)
+                if let groupsToken = res["G"] as? String{
+                    connection.groupsToken = groupsToken
                 }
                 
-                guard let messages = resDic["M"] as? NSArray else{
+                guard let messages = res["M"] as? NSArray else{
                     return shouldReconnect
                 }
                 
-                connection.messageId = resDic["C"] as? String
+                connection.messageId = res["C"] as? String
                 
-                for msg in messages {
+                for msg in messages{
                     connection.onReceived(msg)
                 }
                 
-                if resDic["S"] != nil && (resDic["S"] as? Int) == 1{
-                    self.initRecived(connection, connectionData: connectionInfo.connectionData).then{
+                if res["S"] as? Int == 1{
+                    self.initRecived(connection, connectionData: connectionInfo.connectionData){
                         _ -> Void in
                         self.connected = true
-                        self.startPromiseWrapper.fulfill()
+                        self.doCompletionCallback(nil)
                     }
                 }
-                
             }
-        }catch{
             
+        }catch let err{
+            SSRLog.log(err, message: message)
         }
         
         return shouldReconnect
@@ -158,6 +139,11 @@ public class ClientBaseTransport: NSObject,IClientTransport{
     
      func initialize(connection:IConnection,connectionData:String,disconnectToken:CancellationToken){
         self.connectionInfo = TransportConnectionInfo(connection: connection, connectionData: connectionData, disconnectToken: disconnectToken)
+    }
+    
+    func doCompletionCallback(err:ErrorType?){
+        self.completion?(err)
+        self.completion = nil
     }
 
 }

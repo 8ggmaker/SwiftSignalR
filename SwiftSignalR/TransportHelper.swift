@@ -8,53 +8,57 @@
 
 import Foundation
 import Alamofire
-import PromiseKit
 public class TransportHelper{
     
     
-    public func getNegotiationResponse(httpClient:IHttpClient,connection:IConnection?,connectionData:String?) -> Promise<NegotiationResponse> {
+    public func getNegotiationResponse(httpClient:IHttpClient,connection:IConnection?,connectionData:String?,completion:(ErrorType?,NegotiationResponse?)->()){
         
-        
-        return Promise{
-            fulfill,reject in
-            
-            if connection == nil{
-                reject(CommonException.ArgumentNullException(exception: "connection"))
-            }
-            
-            let negotiateUrl = try UrlBuilder.buildNegotiate(connection, connectionData: connectionData)
-            
-            httpClient.get(negotiateUrl,cancellationToken: nil,data: nil).then{
-                res -> Void in
-                let negotiationResp = NegotiationResponse(json: res)
-                
-                fulfill(negotiationResp)
-                }.error{
-                    err in
-                    reject(err)
-            }
+        if connection == nil{
+            completion(CommonException.ArgumentNullException(exception: "connection"),nil)
+            return
         }
-       
+        do{
+            let negotiateUrl = try UrlBuilder.buildNegotiate(connection, connectionData: connectionData)
+            httpClient.get(negotiateUrl,cancellationToken: nil,data: nil){
+                err,val -> Void in
+                var negotiationResp: NegotiationResponse? = nil
+                if val != nil{
+                    negotiationResp = NegotiationResponse(json:val)
+                }
+                
+                completion(err,negotiationResp)
+                
+            }
+
+        }catch let err{
+            completion(err,nil)
+        }
+        
+        
+        
     }
     
-    public func getStartResponse(httpClient:IHttpClient,connection:IConnection?,connectionData:String?,transport:String?)->Promise<String>{
+    public func getStartResponse(httpClient:IHttpClient,connection:IConnection?,connectionData:String?,transport:String?,completion:(ErrorType?,String?)->()){
         
-        return Promise{
-            fulfill, reject in
-            if connection == nil{
-                 reject(CommonException.ArgumentNullException(exception: "connection"))
-            }
-            
+        if connection == nil{
+            completion(CommonException.ArgumentNullException(exception: "connection"),nil)
+            return
+        }
+        
+        do{
             let startUrl = try UrlBuilder.buildStart(connection, transport: transport, connectionData: connectionData!)
             
-            httpClient.get(startUrl,cancellationToken: nil,data: nil).then{
-                res in
-                fulfill(res)
-                }.error{
-                    err in
-                    reject(err)
+            httpClient.get(startUrl,cancellationToken: nil,data: nil){
+                err,val in
+                
+                completion(err,val)
             }
+            
+        }catch let err{
+            completion(err,nil)
         }
+        
+        
         
     }
     

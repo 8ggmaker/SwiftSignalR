@@ -19,3 +19,4 @@ public class NegotiationResponse: EVObject{
     public var transportConnectTimeout: Double = 0.0
     
 }
+

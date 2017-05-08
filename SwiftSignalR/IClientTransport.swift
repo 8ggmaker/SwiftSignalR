@@ -7,16 +7,15 @@
 //
 
 import Foundation
-import PromiseKit
 public protocol IClientTransport{
     
     var name:String{get}
     
     var supportKeepAlive: Bool{get}
     
-    func negotiate(connection: IConnection, connectionData: String)-> Promise<NegotiationResponse>
+    func negotiate(connection: IConnection, connectionData: String,completion:(ErrorType?,NegotiationResponse?)->())
     
-    func start(connection: IConnection, connectionData:String, disconnectToken: CancellationToken)throws-> Promise<Void>
+    func start(connection: IConnection, connectionData:String, disconnectToken: CancellationToken,completion:(ErrorType?)->())
     
     func send(connection: IConnection, data:String, connectionData:String,completionHandler:((response:Any?,error:ErrorType?)->())?)
     

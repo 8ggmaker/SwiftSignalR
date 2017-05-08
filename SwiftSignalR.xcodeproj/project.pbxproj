@@ -40,6 +40,11 @@
 		3B4DCC541E07ECD1008CC256 /* IHttpClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4DCC531E07ECD1008CC256 /* IHttpClient.swift */; };
 		3B4DCC561E08DF45008CC256 /* WebSocketTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4DCC551E08DF45008CC256 /* WebSocketTransport.swift */; };
 		3BA523541E20F37E00DAE06E /* TestLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA523531E20F37E00DAE06E /* TestLoginViewController.swift */; };
+		3BB3D7811EB9C82700A9F2CC /* Jsonable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB3D7801EB9C82700A9F2CC /* Jsonable.swift */; };
+		3BB3D7831EBB7C4700A9F2CC /* JsonSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB3D7821EBB7C4700A9F2CC /* JsonSerializer.swift */; };
+		3BB3D78B1EBC894700A9F2CC /* SwiftSignalRUnitTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB3D78A1EBC894700A9F2CC /* SwiftSignalRUnitTest.swift */; };
+		3BB3D78D1EBC894700A9F2CC /* SwiftSignalR.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B4DCBDB1DD623B4008CC256 /* SwiftSignalR.framework */; };
+		3BB3D7941EBCA15000A9F2CC /* ShitPerson.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB3D7931EBCA15000A9F2CC /* ShitPerson.swift */; };
 		3BC3D3361E14F57900F8C9C2 /* SSRLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC3D3351E14F57900F8C9C2 /* SSRLog.swift */; };
 		3BC3D33A1E152C4300F8C9C2 /* ConnectionExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC3D3391E152C4300F8C9C2 /* ConnectionExtensions.swift */; };
 		3BC3D3421E152E4C00F8C9C2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BC3D3411E152E4C00F8C9C2 /* AppDelegate.swift */; };
@@ -47,11 +52,19 @@
 		3BC3D3491E152E4C00F8C9C2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3BC3D3481E152E4C00F8C9C2 /* Assets.xcassets */; };
 		3BC3D34C1E152E4C00F8C9C2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3BC3D34A1E152E4C00F8C9C2 /* LaunchScreen.storyboard */; };
 		625116691C79DA9F7C6EC744 /* Pods_SwiftSignalRTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3941852454853B9099141612 /* Pods_SwiftSignalRTest.framework */; };
+		91CAEB9A5E53C8948E277B47 /* Pods_SwiftSignalRUnitTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C95EAFF590F3040702B24420 /* Pods_SwiftSignalRUnitTest.framework */; };
 		EBB6557337A236B45ABA7C8E /* Pods_SwiftSignalR.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0998443710F96A30F427511C /* Pods_SwiftSignalR.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
 		3B0854011E15548D00B46D6C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3B4DCBD21DD623B4008CC256 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3B4DCBDA1DD623B4008CC256;
+			remoteInfo = SwiftSignalR;
+		};
+		3BB3D78E1EBC894700A9F2CC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 3B4DCBD21DD623B4008CC256 /* Project object */;
 			proxyType = 1;
@@ -79,6 +92,7 @@
 		058E005F2B80D7D56D2220C7 /* Pods-SwiftSignalRTest.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwiftSignalRTest.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SwiftSignalRTest/Pods-SwiftSignalRTest.debug.xcconfig"; sourceTree = "<group>"; };
 		0998443710F96A30F427511C /* Pods_SwiftSignalR.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SwiftSignalR.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1BC6ED0E647D25877C647AFC /* Pods-SwiftSignalRTest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwiftSignalRTest.release.xcconfig"; path = "Pods/Target Support Files/Pods-SwiftSignalRTest/Pods-SwiftSignalRTest.release.xcconfig"; sourceTree = "<group>"; };
+		291C1ACBB85FB3538EC8578B /* Pods-SwiftSignalRUnitTest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwiftSignalRUnitTest.release.xcconfig"; path = "Pods/Target Support Files/Pods-SwiftSignalRUnitTest/Pods-SwiftSignalRUnitTest.release.xcconfig"; sourceTree = "<group>"; };
 		3941852454853B9099141612 /* Pods_SwiftSignalRTest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SwiftSignalRTest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B0853FD1E153B3F00B46D6C /* TestSwiftSignalRViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestSwiftSignalRViewController.swift; sourceTree = "<group>"; };
 		3B0854041E1563D300B46D6C /* StringExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
@@ -114,6 +128,12 @@
 		3B4DCC551E08DF45008CC256 /* WebSocketTransport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebSocketTransport.swift; sourceTree = "<group>"; };
 		3BA523501E20EC8000DAE06E /* SwiftSignalRTest-bridging-header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SwiftSignalRTest-bridging-header.h"; sourceTree = "<group>"; };
 		3BA523531E20F37E00DAE06E /* TestLoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestLoginViewController.swift; sourceTree = "<group>"; };
+		3BB3D7801EB9C82700A9F2CC /* Jsonable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Jsonable.swift; sourceTree = "<group>"; };
+		3BB3D7821EBB7C4700A9F2CC /* JsonSerializer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JsonSerializer.swift; sourceTree = "<group>"; };
+		3BB3D7881EBC894700A9F2CC /* SwiftSignalRUnitTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwiftSignalRUnitTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		3BB3D78A1EBC894700A9F2CC /* SwiftSignalRUnitTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftSignalRUnitTest.swift; sourceTree = "<group>"; };
+		3BB3D78C1EBC894700A9F2CC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3BB3D7931EBCA15000A9F2CC /* ShitPerson.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShitPerson.swift; sourceTree = "<group>"; };
 		3BC3D3351E14F57900F8C9C2 /* SSRLog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SSRLog.swift; sourceTree = "<group>"; };
 		3BC3D3391E152C4300F8C9C2 /* ConnectionExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectionExtensions.swift; sourceTree = "<group>"; };
 		3BC3D33F1E152E4C00F8C9C2 /* SwiftSignalRTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftSignalRTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -122,7 +142,9 @@
 		3BC3D3481E152E4C00F8C9C2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3BC3D34B1E152E4C00F8C9C2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3BC3D34D1E152E4C00F8C9C2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5C0A00ECE57E06ADCE77BBD4 /* Pods-SwiftSignalRUnitTest.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwiftSignalRUnitTest.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SwiftSignalRUnitTest/Pods-SwiftSignalRUnitTest.debug.xcconfig"; sourceTree = "<group>"; };
 		9DB198719E298A00869D8EA5 /* Pods-SwiftSignalR.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwiftSignalR.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SwiftSignalR/Pods-SwiftSignalR.debug.xcconfig"; sourceTree = "<group>"; };
+		C95EAFF590F3040702B24420 /* Pods_SwiftSignalRUnitTest.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SwiftSignalRUnitTest.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,6 +153,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				EBB6557337A236B45ABA7C8E /* Pods_SwiftSignalR.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3BB3D7851EBC894700A9F2CC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3BB3D78D1EBC894700A9F2CC /* SwiftSignalR.framework in Frameworks */,
+				91CAEB9A5E53C8948E277B47 /* Pods_SwiftSignalRUnitTest.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -151,6 +182,7 @@
 			children = (
 				3B4DCBDD1DD623B4008CC256 /* SwiftSignalR */,
 				3BC3D3401E152E4C00F8C9C2 /* SwiftSignalRTest */,
+				3BB3D7891EBC894700A9F2CC /* SwiftSignalRUnitTest */,
 				3B4DCBDC1DD623B4008CC256 /* Products */,
 				54C9BC0854D9E677EB3F785E /* Pods */,
 				F9337A87B80260C3B8522AF9 /* Frameworks */,
@@ -162,6 +194,7 @@
 			children = (
 				3B4DCBDB1DD623B4008CC256 /* SwiftSignalR.framework */,
 				3BC3D33F1E152E4C00F8C9C2 /* SwiftSignalRTest.app */,
+				3BB3D7881EBC894700A9F2CC /* SwiftSignalRUnitTest.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -209,6 +242,8 @@
 			isa = PBXGroup;
 			children = (
 				3B4DCC131DD8A6B7008CC256 /* UrlBuilder.swift */,
+				3BB3D7801EB9C82700A9F2CC /* Jsonable.swift */,
+				3BB3D7821EBB7C4700A9F2CC /* JsonSerializer.swift */,
 			);
 			name = Infrastructure;
 			sourceTree = "<group>";
@@ -261,6 +296,16 @@
 			name = Exception;
 			sourceTree = "<group>";
 		};
+		3BB3D7891EBC894700A9F2CC /* SwiftSignalRUnitTest */ = {
+			isa = PBXGroup;
+			children = (
+				3BB3D78A1EBC894700A9F2CC /* SwiftSignalRUnitTest.swift */,
+				3BB3D78C1EBC894700A9F2CC /* Info.plist */,
+				3BB3D7931EBCA15000A9F2CC /* ShitPerson.swift */,
+			);
+			path = SwiftSignalRUnitTest;
+			sourceTree = "<group>";
+		};
 		3BC3D3401E152E4C00F8C9C2 /* SwiftSignalRTest */ = {
 			isa = PBXGroup;
 			children = (
@@ -283,6 +328,8 @@
 				04F7EBC31C22AAFFA254EF46 /* Pods-SwiftSignalR.release.xcconfig */,
 				058E005F2B80D7D56D2220C7 /* Pods-SwiftSignalRTest.debug.xcconfig */,
 				1BC6ED0E647D25877C647AFC /* Pods-SwiftSignalRTest.release.xcconfig */,
+				5C0A00ECE57E06ADCE77BBD4 /* Pods-SwiftSignalRUnitTest.debug.xcconfig */,
+				291C1ACBB85FB3538EC8578B /* Pods-SwiftSignalRUnitTest.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -292,6 +339,7 @@
 			children = (
 				0998443710F96A30F427511C /* Pods_SwiftSignalR.framework */,
 				3941852454853B9099141612 /* Pods_SwiftSignalRTest.framework */,
+				C95EAFF590F3040702B24420 /* Pods_SwiftSignalRUnitTest.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -330,6 +378,27 @@
 			productReference = 3B4DCBDB1DD623B4008CC256 /* SwiftSignalR.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		3BB3D7871EBC894700A9F2CC /* SwiftSignalRUnitTest */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3BB3D7901EBC894700A9F2CC /* Build configuration list for PBXNativeTarget "SwiftSignalRUnitTest" */;
+			buildPhases = (
+				26B76DEF58971C2F5FED0E3E /* [CP] Check Pods Manifest.lock */,
+				3BB3D7841EBC894700A9F2CC /* Sources */,
+				3BB3D7851EBC894700A9F2CC /* Frameworks */,
+				3BB3D7861EBC894700A9F2CC /* Resources */,
+				2BBFE30BD8B0DAB33AA779EF /* [CP] Embed Pods Frameworks */,
+				4E9F7F662FE2B602B18AAEF4 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				3BB3D78F1EBC894700A9F2CC /* PBXTargetDependency */,
+			);
+			name = SwiftSignalRUnitTest;
+			productName = SwiftSignalRUnitTest;
+			productReference = 3BB3D7881EBC894700A9F2CC /* SwiftSignalRUnitTest.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		3BC3D33E1E152E4C00F8C9C2 /* SwiftSignalRTest */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3BC3D34E1E152E4C00F8C9C2 /* Build configuration list for PBXNativeTarget "SwiftSignalRTest" */;
@@ -365,6 +434,9 @@
 					3B4DCBDA1DD623B4008CC256 = {
 						CreatedOnToolsVersion = 7.3.1;
 					};
+					3BB3D7871EBC894700A9F2CC = {
+						CreatedOnToolsVersion = 7.3.1;
+					};
 					3BC3D33E1E152E4C00F8C9C2 = {
 						CreatedOnToolsVersion = 7.3.1;
 					};
@@ -385,12 +457,20 @@
 			targets = (
 				3B4DCBDA1DD623B4008CC256 /* SwiftSignalR */,
 				3BC3D33E1E152E4C00F8C9C2 /* SwiftSignalRTest */,
+				3BB3D7871EBC894700A9F2CC /* SwiftSignalRUnitTest */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		3B4DCBD91DD623B4008CC256 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3BB3D7861EBC894700A9F2CC /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -425,6 +505,36 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SwiftSignalRTest/Pods-SwiftSignalRTest-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		26B76DEF58971C2F5FED0E3E /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		2BBFE30BD8B0DAB33AA779EF /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SwiftSignalRUnitTest/Pods-SwiftSignalRUnitTest-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		2D306DAF4D1386FF013D3FDA /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -453,6 +563,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		4E9F7F662FE2B602B18AAEF4 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SwiftSignalRUnitTest/Pods-SwiftSignalRUnitTest-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		8A252B25C31E82D0A56C5401 /* [CP] Check Pods Manifest.lock */ = {
@@ -497,6 +622,7 @@
 				3B4DCC141DD8A6B7008CC256 /* UrlBuilder.swift in Sources */,
 				3BC3D3361E14F57900F8C9C2 /* SSRLog.swift in Sources */,
 				3B4DCC041DD754D3008CC256 /* Version.swift in Sources */,
+				3BB3D7811EB9C82700A9F2CC /* Jsonable.swift in Sources */,
 				3B0854071E1569E200B46D6C /* HubConnection.swift in Sources */,
 				3BC3D33A1E152C4300F8C9C2 /* ConnectionExtensions.swift in Sources */,
 				3B4DCC501E054758008CC256 /* ClientTransportBase.swift in Sources */,
@@ -505,6 +631,7 @@
 				3B0854151E1814BA00B46D6C /* HubInvocation.swift in Sources */,
 				3B0854051E1563D300B46D6C /* StringExtensions.swift in Sources */,
 				3B4DCC181DE186FC008CC256 /* TransportHelper.swift in Sources */,
+				3BB3D7831EBB7C4700A9F2CC /* JsonSerializer.swift in Sources */,
 				3B2293051E10D21100DFAEC7 /* Connection.swift in Sources */,
 				3B4DCC081DD756AD008CC256 /* Exception.swift in Sources */,
 				3B08540D1E16474500B46D6C /* HubResult.swift in Sources */,
@@ -525,6 +652,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		3BB3D7841EBC894700A9F2CC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3BB3D78B1EBC894700A9F2CC /* SwiftSignalRUnitTest.swift in Sources */,
+				3BB3D7941EBCA15000A9F2CC /* ShitPerson.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		3BC3D33B1E152E4C00F8C9C2 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -542,6 +678,11 @@
 			isa = PBXTargetDependency;
 			target = 3B4DCBDA1DD623B4008CC256 /* SwiftSignalR */;
 			targetProxy = 3B0854011E15548D00B46D6C /* PBXContainerItemProxy */;
+		};
+		3BB3D78F1EBC894700A9F2CC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3B4DCBDA1DD623B4008CC256 /* SwiftSignalR */;
+			targetProxy = 3BB3D78E1EBC894700A9F2CC /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -695,6 +836,28 @@
 			};
 			name = Release;
 		};
+		3BB3D7911EBC894700A9F2CC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5C0A00ECE57E06ADCE77BBD4 /* Pods-SwiftSignalRUnitTest.debug.xcconfig */;
+			buildSettings = {
+				INFOPLIST_FILE = SwiftSignalRUnitTest/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = zsy.SwiftSignalRUnitTest;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		3BB3D7921EBC894700A9F2CC /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 291C1ACBB85FB3538EC8578B /* Pods-SwiftSignalRUnitTest.release.xcconfig */;
+			buildSettings = {
+				INFOPLIST_FILE = SwiftSignalRUnitTest/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = zsy.SwiftSignalRUnitTest;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		3BC3D34F1E152E4C00F8C9C2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 058E005F2B80D7D56D2220C7 /* Pods-SwiftSignalRTest.debug.xcconfig */;
@@ -747,6 +910,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		3BB3D7901EBC894700A9F2CC /* Build configuration list for PBXNativeTarget "SwiftSignalRUnitTest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3BB3D7911EBC894700A9F2CC /* Debug */,
+				3BB3D7921EBC894700A9F2CC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 		3BC3D34E1E152E4C00F8C9C2 /* Build configuration list for PBXNativeTarget "SwiftSignalRTest" */ = {
 			isa = XCConfigurationList;

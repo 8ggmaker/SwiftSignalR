@@ -7,9 +7,9 @@
 //
 
 import Foundation
-import PromiseKit
+import Alamofire
 public protocol IHttpClient {
-    func get(url:String,cancellationToken:CancellationToken?,data:String?) -> Promise<String>
+    func get(url:String,cancellationToken:CancellationToken?,data:String?,completion:(ErrorType?,String?)->())->Request
     
-    func post(url:String,cancellationToken:CancellationToken?,data:String?) -> Promise<String>
+    func post(url:String,cancellationToken:CancellationToken?,data:String?,completion:(ErrorType?,String?)->())->Request
 }

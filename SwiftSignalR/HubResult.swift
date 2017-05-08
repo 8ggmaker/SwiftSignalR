@@ -34,42 +34,30 @@ public class HubResult{
     
     public var errorData: Any? = nil
     
-    public var state: NSMutableDictionary? = nil
+    public var state: [String:AnyObject]? = nil
     
     
     public init(){
         
     }
     
-    public init(parameters: NSMutableDictionary){
-        if parameters[HubResult.idkey] != nil && parameters[HubResult.idkey] is String{
-            id = parameters[HubResult.idkey] as? String
+    public init(parameters: [String:AnyObject]){
+
+        self.id = parameters[HubResult.idkey] as? String
+        
+        if let progressUpdateDic = parameters[HubResult.progressUpdateKey] as? [String:AnyObject]{
+            self.progressUpdate = HubProgressUpdate(parameters: progressUpdateDic)
         }
         
-        if parameters[HubResult.progressUpdateKey] != nil && parameters[HubResult.progressUpdateKey
-            ] is NSMutableDictionary{
-            progressUpdate = HubProgressUpdate(parameters: parameters[HubResult.progressUpdateKey] as!NSMutableDictionary)
-        }
+        self.result = parameters[HubResult.resultKey]
         
-        if parameters[HubResult.resultKey] != nil{
-            result = parameters[HubResult.resultKey]
-        }
+        self.isHubException = parameters[HubResult.isHubExceptionKey] as? Bool
         
-        if parameters[HubResult.isHubExceptionKey] != nil && parameters[HubResult.isHubExceptionKey
-            ] is Bool{
-            isHubException = parameters[HubResult.isHubExceptionKey] as? Bool
-        }
+        self.error = parameters[HubResult.errorKey] as? String
+
+        self.errorData = parameters[HubResult.errorDataKey]
         
-        if parameters[HubResult.errorKey] != nil && parameters[HubResult.errorKey] is String{
-            error = parameters[HubResult.errorKey] as? String
-        }
-        
-        if parameters[HubResult.errorDataKey] != nil{
-            errorData = parameters[HubResult.errorDataKey]
-        }
-        
-        if parameters[HubResult.stateKey] != nil &&  parameters[HubResult.stateKey] is NSMutableDictionary{
-            state = parameters[HubResult.stateKey] as? NSMutableDictionary
-        }
+        self.state = parameters[HubResult.stateKey] as? [String:AnyObject]
+
     }
 }

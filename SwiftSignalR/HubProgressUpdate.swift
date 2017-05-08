@@ -16,7 +16,7 @@ public class HubProgressUpdate{
     
     public var data: Any? = ""
     
-    public init(parameters: NSMutableDictionary){
+    public init(parameters: [String:AnyObject]){
         self.id = parameters[HubProgressUpdate.idkey] as? String
         self.data = parameters[HubProgressUpdate.dataKey]
     }

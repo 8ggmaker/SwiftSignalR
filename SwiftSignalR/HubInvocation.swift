@@ -7,7 +7,7 @@
 //
 
 import Foundation
-public class HubInvocation{
+public class HubInvocation: Jsonable{
     
     private static let callbackIdKey = "I"
     
@@ -19,41 +19,38 @@ public class HubInvocation{
     
     private static let stateKey = "S"
     
-    public var callbackId: String? = nil
+    public var callbackId: String?
     
-    public var hub: String? = nil
+    public var hub: String
     
-    public var method: String? = nil
+    public var method: String
     
-    public var args: NSMutableArray? = nil
+    public var args: [AnyObject]? = nil
     
-    public var state: NSMutableDictionary? = nil
+    public var state: [String:AnyObject]? = nil
     
-    
-    public init(){
-        
+    public init(callbackId:String?,hub:String,method:String,args:[AnyObject]? = nil,state:[String:AnyObject]? = nil){
+        self.callbackId = callbackId
+        self.hub = hub
+        self.method = method
+        self.args = args
+        self.state = state
     }
     
-    public init(parameters:NSMutableDictionary){
-        
-        if parameters[HubInvocation.callbackIdKey] != nil && parameters[HubInvocation.callbackIdKey] is String{
-            self.callbackId = parameters[HubInvocation.callbackIdKey] as? String
+    public init(parameters:[String:AnyObject]){
+
+        self.callbackId = parameters[HubInvocation.callbackIdKey] as? String
+        self.hub = parameters[HubInvocation.hubKey] as! String
+        self.method = parameters[HubInvocation.methodKey] as! String
+        if let argArr = parameters[HubInvocation.argsKey] as? [AnyObject]{
+            self.args = argArr
         }
-        if parameters[HubInvocation.hubKey] != nil && parameters[HubInvocation.hubKey] is String{
-            self.hub = parameters[HubInvocation.hubKey] as? String
-        }
-        if parameters[HubInvocation.methodKey] != nil && parameters[HubInvocation.methodKey] is String{
-            self.method = parameters[HubInvocation.methodKey] as? String
-        }
-        if parameters[HubInvocation.argsKey] != nil && parameters[HubInvocation.argsKey] is NSArray{
-            self.args = NSMutableArray(array: (parameters[HubInvocation.argsKey] as? NSArray)!)
-        }
-        if parameters[HubInvocation.stateKey] != nil && parameters[HubInvocation.stateKey] is NSDictionary{
-            self.state = NSMutableDictionary(dictionary: (parameters[HubInvocation.stateKey] as? NSDictionary)!)
+        if let stateDic = parameters[HubInvocation.stateKey] as? [String:AnyObject]{
+            self.state = stateDic
         }
     }
     
-    public func prepareForJson()-> NSMutableDictionary{
+    public func toJsonObject()-> NSDictionary{
         let dic = NSMutableDictionary()
         dic[HubInvocation.callbackIdKey] = self.callbackId
         dic[HubInvocation.hubKey] = self.hub

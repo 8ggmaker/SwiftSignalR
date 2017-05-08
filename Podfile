@@ -7,12 +7,15 @@
   def pods
   pod 'Alamofire', '3.5.1'
   pod 'EVReflection', '~>2.6'
-  pod 'PromiseKit', '~>3.5'
   pod 'SocketRocket'
   
   end
 
   target 'SwiftSignalR' do
+      pods
+  end
+
+  target 'SwiftSignalRUnitTest’ do
       pods
   end
 

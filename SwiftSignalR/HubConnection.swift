@@ -13,7 +13,7 @@ public class HubConnection: Connection, IHubConnection{
     
     private var callbacks: Dictionary<String,(HubResult?->())> = Dictionary<String,(HubResult?->())>()
     
-    private var callbackId: Int64 = 0
+    private var callbackId: UInt64 = 0
     
     private let idIncrementLock: SSRLock = SSRLock()
     
@@ -37,7 +37,13 @@ public class HubConnection: Connection, IHubConnection{
     
     public func registerCallback(callback: (HubResult?->()))-> String?{
         
+        if self.callbackId == UInt64.max{
+            SSRLog.log(CommonException.InvalidArgumentException(exception: "call back id reach\(UInt64.max)"), message: nil)
+            return nil
+        }
+        
         callbackLock.performLocked({
+            
             self.idIncrementLock.performLocked({// seems no need to lock this
                 self.callbackId = self.callbackId + 1
             })
@@ -96,8 +102,7 @@ public class HubConnection: Connection, IHubConnection{
     
     public override func onReceived(data: Any?) {
         
-        if data is NSMutableDictionary{
-            let dic = data as! NSMutableDictionary
+        if let dic = data as? [String:AnyObject]{
             
             if dic["P"] != nil{
                 let hubResult = HubResult(parameters: dic)
@@ -130,8 +135,8 @@ public class HubConnection: Connection, IHubConnection{
                 let invocation = HubInvocation(parameters: dic)
                 var hubProxy: HubProxy? = nil
                 
-                if invocation.hub != nil && hubs[invocation.hub!.lowercaseString] != nil{
-                    hubProxy = hubs[invocation.hub!.lowercaseString] as? HubProxy
+                if hubs[invocation.hub.lowercaseString] != nil{
+                    hubProxy = hubs[invocation.hub.lowercaseString] as? HubProxy
                     if invocation.state != nil{
                          hubProxy?.setState(invocation.state!)
                     }
@@ -142,7 +147,7 @@ public class HubConnection: Connection, IHubConnection{
                             params?.append(arg)
                         }
                     }
-                    hubProxy?.invokeEvent(invocation.method!, args: params)
+                    hubProxy?.invokeEvent(invocation.method, args: params)
                 }
                 
             }
@@ -153,13 +158,13 @@ public class HubConnection: Connection, IHubConnection{
     }
     
     public override func onSending() -> String {
-        let data = NSMutableArray()
+        var data = [AnyObject]()
         hubs.flatMap({
             key,val -> HubRegistrationData in
             return HubRegistrationData(name: key)
         }).map({
             registrationData -> Void in
-            data.addObject(registrationData.prepareForJson())
+            data.append(registrationData.prepareForJson())
         })
         do{
             return try self.JsonSerialize(data)!

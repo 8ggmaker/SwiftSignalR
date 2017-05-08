@@ -77,19 +77,19 @@ public class Connection: IConnection{
     
     //MARK: CALL BACK ACTIONS
     
-    public var started: (() -> Void)? = nil
+    public var started: (() -> ())? = nil
     
-    public var closed: (() -> Void)? = nil
+    public var closed: (() -> ())? = nil
     
-    public var received: (Any? throws -> Void)? = nil
+    public var received: (Any? throws -> ())? = nil
     
-    public var error: (ErrorType? -> Void)? = nil
+    public var error: (ErrorType? -> ())? = nil
     
-    public var reconnecting: (() -> Void)? = nil
+    public var reconnecting: (() -> ())? = nil
     
-    public var reconnected: (() -> Void)? = nil
+    public var reconnected: (() -> ())? = nil
     
-    public var connectionSlow: (() -> Void)? = nil
+    public var connectionSlow: (() -> ())? = nil
     
     
     public  convenience init(url:String) throws{
@@ -149,43 +149,54 @@ public class Connection: IConnection{
             self.disconnectCts = CancellationSource()
             self.transport = transport
             
-            try self.negotiate(transport)
+            self.negotiate(transport)
         })
         
     }
     
     
-    private func negotiate(transport:IClientTransport) throws{
+    private func negotiate(transport:IClientTransport){
         connectionData = onSending()
-        transport.negotiate(self, connectionData: connectionData).then{
-            response -> Void in
-            try self.verifyProtocolVersion(response.protocolVersion)
-            
-            self.connectionId = response.connectionId
-            self.connectionToken = response.connectionToken
-            self.disconnectTimeout = response.disconnectTimeout
-            self.totalTransportConnectTimeout = response.transportConnectTimeout + self.transportConnectTimeout
-            
-            var beatInterval = NSTimeInterval(5)
-            if response.keepAliveTimeout != nil{
-                self.keepAliveData = KeepAliveData(timeout: response.keepAliveTimeout!)
-                self.reconnectWindow = self.disconnectTimeout + (self.keepAliveData?.timeout)!
-                
-                beatInterval = (self.keepAliveData?.checkInterval)!
+        transport.negotiate(self, connectionData: connectionData){
+            err,response -> () in
+            if err == nil{
+                do{
+                    try self.verifyProtocolVersion(response!.protocolVersion)
+                    
+                    self.connectionId = response!.connectionId
+                    self.connectionToken = response!.connectionToken
+                    self.disconnectTimeout = response!.disconnectTimeout
+                    self.totalTransportConnectTimeout = response!.transportConnectTimeout + self.transportConnectTimeout
+                    
+                    var beatInterval = NSTimeInterval(5)
+                    if response!.keepAliveTimeout != nil{
+                        self.keepAliveData = KeepAliveData(timeout: response!.keepAliveTimeout!)
+                        self.reconnectWindow = self.disconnectTimeout + (self.keepAliveData?.timeout)!
+                        
+                        beatInterval = (self.keepAliveData?.checkInterval)!
+                    }else{
+                        self.reconnectWindow = self.disconnectTimeout
+                    }
+                    
+                    self.heartBeatMonitor = HeartBeatMonitor(connection: self, connectionStateLock: self.stateLock, beatInterval: beatInterval)
+                    
+                    self.startTransport()
+                }catch{
+                    
+                }
             }else{
-                self.reconnectWindow = self.disconnectTimeout
+                self.onError(err!)
+                self.stop()
             }
             
-            self.heartBeatMonitor = HeartBeatMonitor(connection: self, connectionStateLock: self.stateLock, beatInterval: beatInterval)
             
-            self.startTransport()
         }
     }
     
     private func startTransport(){
-        do{
-            try transport.start(self, connectionData: connectionData, disconnectToken: disconnectCts.token).then{
-                () -> Void in
+        transport.start(self, connectionData: connectionData, disconnectToken: disconnectCts.token){
+            err -> () in
+            if err == nil{
                 self.changeState(.Connecting, newState: .Connected)
                 
                 if self.started != nil{
@@ -196,15 +207,11 @@ public class Connection: IConnection{
                 self.lastMessageAt = NSDate()
                 
                 self.heartBeatMonitor.start()
-                
-                }.error{
-                    err -> Void in
-                    self.disconnect()
+            }else{
+                self.onError(err!)
+                self.stop()
             }
-        }catch{
-            self.disconnect()
         }
-        
     }
     
     public func changeState(oldState:ConnectionState,newState:ConnectionState) -> Bool{
@@ -495,11 +502,12 @@ public class Connection: IConnection{
     public var JsonSerialize: ((AnyObject)throws -> String?) = {
         anyObj throws -> String? in
         
-        let arr = [anyObj]
-        if let jsonData = try? NSJSONSerialization.dataWithJSONObject(arr, options: NSJSONWritingOptions()){
-            if let res = NSString(data: jsonData, encoding: NSUTF8StringEncoding) as? String{
-                let range = res.startIndex.advancedBy(1) ..< res.endIndex.advancedBy(-1)
-                return res.substringWithRange(range)
+        if let obj = try JsonSerializer.generateValidJsonObject(anyObj){
+            if let jsonData = try? NSJSONSerialization.dataWithJSONObject(obj, options: NSJSONWritingOptions()){
+                if let res = NSString(data: jsonData, encoding: NSUTF8StringEncoding) as? String{
+//                    let range = res.startIndex.advancedBy(1) ..< res.endIndex.advancedBy(-1)
+                    return res
+                }
             }
         }
         
