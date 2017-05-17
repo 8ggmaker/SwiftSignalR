@@ -7,8 +7,8 @@
 //
 
 import Foundation
-public class SSRLog{
-    public static func log(error:ErrorType?,message:String?){
+open class SSRLog{
+    open static func log(_ error:Error?,message:String?){
         var logStr = ""
         if error != nil{
             logStr = "error:\(error!)"

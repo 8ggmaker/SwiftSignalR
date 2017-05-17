@@ -7,18 +7,42 @@
 //
 
 import Foundation
-public class Version: NSObject{
-    public var build: Int = 0
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
+open class Version: NSObject{
+    open var build: Int = 0
     
-    public var major: Int = 0
+    open var major: Int = 0
     
-    public var majorRevision: Int = 0
+    open var majorRevision: Int = 0
     
-    public var minor: Int = 0
+    open var minor: Int = 0
     
-    public var minorRevision: Int = 0
+    open var minorRevision: Int = 0
     
-    public var revision: Int = 0
+    open var revision: Int = 0
     
     override init(){
         super.init()
@@ -37,7 +61,7 @@ public class Version: NSObject{
         self.minor = minor
         
         if major < 0 || minor < 0{
-            throw CommonException.InvalidArgumentException(exception:"Component cannot be less than 0, major: \(major), minor: \(minor)")
+            throw CommonException.invalidArgumentException(exception:"Component cannot be less than 0, major: \(major), minor: \(minor)")
         }
     }
     
@@ -45,7 +69,7 @@ public class Version: NSObject{
         try self.init(major:major,minor: minor)
         self.build = build
         if build < 0{
-            throw CommonException.InvalidArgumentException(exception: "Component cannot be less than 0, build: \(build)")
+            throw CommonException.invalidArgumentException(exception: "Component cannot be less than 0, build: \(build)")
         }
     }
     
@@ -53,24 +77,24 @@ public class Version: NSObject{
         try self.init(major:major,minor:minor,build: build)
         self.revision = revision
         if revision < 0{
-            throw CommonException.InvalidArgumentException(exception: "Component cannot be less than 0, revision: \(revision)")
+            throw CommonException.invalidArgumentException(exception: "Component cannot be less than 0, revision: \(revision)")
         }
     }
     
-    static func tryParse(input:String?, inout version: Version) -> Bool{
+    static func tryParse(_ input:String?, version: inout Version) -> Bool{
         
         if input == nil || input?.isEmpty == true{
             return false
         }
         
-        let components = input?.componentsSeparatedByString(".")
+        let components = input?.components(separatedBy: ".")
         if components == nil || components?.count < 2 || components?.count > 4{
             return false
         }
         
         let temp = Version()
         
-        for (idx,val) in components!.enumerate(){
+        for (idx,val) in components!.enumerated(){
             
             switch idx {
             case 0:
@@ -94,7 +118,7 @@ public class Version: NSObject{
         return true
     }
     
-    public override func isEqual(object: AnyObject?) -> Bool {
+    open override func isEqual(_ object: Any?) -> Bool {
         if object == nil {
             return false
         }
@@ -107,7 +131,7 @@ public class Version: NSObject{
                && self.revision == versionObject.revision
     }
     
-    override public var description: String{
+    override open var description: String{
         return "\(major).\(minor).\(build).\(revision)"
     }
 

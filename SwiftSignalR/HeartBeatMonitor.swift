@@ -7,58 +7,82 @@
 //
 
 import Foundation
-public class HeartBeatMonitor{
-    private var timer: NSTimer! = nil
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func >= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l >= r
+  default:
+    return !(lhs < rhs)
+  }
+}
+
+open class HeartBeatMonitor{
+    fileprivate var timer: Timer! = nil
     
-    private var connectionStateLock: SSRLock! = nil
+    fileprivate var connectionStateLock: SSRLock! = nil
     
-    private var connection: IConnection! = nil
+    fileprivate var connection: IConnection! = nil
     
-    private var beatInterval: NSTimeInterval = 0
+    fileprivate var beatInterval: TimeInterval = 0
     
-    private var monitorKeepAlive: Bool = false
+    fileprivate var monitorKeepAlive: Bool = false
     
-    private var hasBeenWarned: Bool = false
+    fileprivate var hasBeenWarned: Bool = false
     
-    private var timeout: Bool = false
+    fileprivate var timeout: Bool = false
     
-    public init(connection: IConnection, connectionStateLock:SSRLock, beatInterval: NSTimeInterval){
+    public init(connection: IConnection, connectionStateLock:SSRLock, beatInterval: TimeInterval){
         self.beatInterval = beatInterval
         self.connection = connection
         self.connectionStateLock = connectionStateLock
     }
     
-    public func start(){
+    open func start(){
         monitorKeepAlive = (connection.keepAliveData != nil && connection.transport.supportKeepAlive == true)
         clearFlags()
         if timer != nil{
             timer.invalidate()
         }
-        timer = NSTimer(timeInterval: beatInterval, target: self, selector: #selector(heatBeat), userInfo: nil, repeats: true)
+        timer = Timer(timeInterval: beatInterval, target: self, selector: #selector(heatBeat), userInfo: nil, repeats: true)
     }
     
-    private func clearFlags(){
+    fileprivate func clearFlags(){
         hasBeenWarned = false
         timeout = false
     }
     
-    @objc private func heatBeat(){
-        let timeElapsed = NSDate().timeIntervalSinceDate(connection.lastMessageAt)
+    @objc fileprivate func heatBeat(){
+        let timeElapsed = Date().timeIntervalSince(connection.lastMessageAt as Date)
         beat(timeElapsed)
     }
     
-    private func beat(timeElapsed: NSTimeInterval){
+    fileprivate func beat(_ timeElapsed: TimeInterval){
         if monitorKeepAlive {
             checkKeepAlive(timeElapsed)
         }
         connection.markActive()
     }
     
-    private func checkKeepAlive(timeElapsed:NSTimeInterval){
+    fileprivate func checkKeepAlive(_ timeElapsed:TimeInterval){
         connectionStateLock.performLocked({
             () -> Void in
             
-            if self.connection.state == .Connected{
+            if self.connection.state == .connected{
                 if timeElapsed >= self.connection.keepAliveData?.timeout{
                     if !self.timeout{
                         self.timeout = true

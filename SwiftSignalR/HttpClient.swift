@@ -8,40 +8,32 @@
 
 import Foundation
 import Alamofire
-public class HttpClient: IHttpClient{
+open class HttpClient: IHttpClient{
     
-    private var requestManager: Alamofire.Manager
+    fileprivate var requestManager: SessionManager
     
     public init(){
-        self.requestManager = Alamofire.Manager(configuration:NSURLSessionConfiguration.defaultSessionConfiguration())
+        self.requestManager = Alamofire.SessionManager(configuration:URLSessionConfiguration.default)
         self.requestManager.startRequestsImmediately = false
     }
     
-    public func get(url:String,cancellationToken:CancellationToken? = nil,data:String? = nil,completion:(ErrorType?,String?)->()) -> Request{
-        return sendRequest(.GET, url: url, cacellationToken: cancellationToken, data: nil,completion: completion)
+    open func get(_ url:String,cancellationToken:CancellationToken? = nil,completion:@escaping (Error?,String?)->()) -> DataRequest{
+        return sendRequest(.get, url: url, cacellationToken: cancellationToken, data: nil,completion: completion)
     }
     
-    public func post(url:String,cancellationToken:CancellationToken? = nil,data:String? = nil,completion:(ErrorType?,String?)->()) -> Request{
-        return sendRequest(.POST, url: url, cacellationToken: cancellationToken, data: data,completion: completion)
+    open func post(_ url:String,cancellationToken:CancellationToken? = nil,data:Parameters? = nil,completion:@escaping (Error?,String?)->()) -> DataRequest{
+        return sendRequest(.post, url: url, cacellationToken: cancellationToken, data: data,completion: completion)
     }
     
-    private func sendRequest(method:Alamofire.Method,url:String,cacellationToken:CancellationToken?,data:String?,completion:(ErrorType?,String?)->())-> Request{
+    fileprivate func sendRequest(_ method:HTTPMethod,url:String,cacellationToken:CancellationToken?,data:Parameters?,completion:@escaping (Error?,String?)->())-> DataRequest{
         
-        var req: Request
+        var req: DataRequest
         
-        if method == .GET{
-            req = Alamofire.request(method,url)
+        if method == .get{
+            req = requestManager.request(url,method:method)
         }else{
-            req = Alamofire.request(method, url, parameters: [:], encoding: .Custom({
-                (convertible,params) in
-                let mutableRequest = convertible.URLRequest.copy() as! NSMutableURLRequest
-                
-                if data != nil && data?.isEmpty == false{
-                    mutableRequest.HTTPBody = data!.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)
-                }
-                
-                return (mutableRequest,nil)
-            }))
+            
+            req = requestManager.request(url, method: method, parameters: data, encoding: URLEncoding.httpBody)
         }
         
         if cacellationToken != nil{
@@ -50,7 +42,7 @@ public class HttpClient: IHttpClient{
                 req.cancel()
             })
         }
-        
+            
         req.responseString(){
             response in
             completion(response.result.error,response.result.value)

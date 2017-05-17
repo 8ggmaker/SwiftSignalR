@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-public class TransportConnectionInfo{
+open class TransportConnectionInfo{
     var connection: IConnection!
     var connectionData:String!
     var disconnectToken: CancellationToken!
@@ -21,10 +21,10 @@ public class TransportConnectionInfo{
     }
 }
 
-public class ClientBaseTransport: NSObject,IClientTransport{
+open class ClientBaseTransport: NSObject,IClientTransport{
     
     
-    private var transportName:String
+    fileprivate var transportName:String
     
     final var abortHandler: TransportAbortHandler
     
@@ -38,7 +38,7 @@ public class ClientBaseTransport: NSObject,IClientTransport{
         
     final var connected:Bool = false
     
-    final var completion:(ErrorType?->())? = nil
+    final var completion:((Error?)->())? = nil
 
 
     public init(name:String,httpClient:IHttpClient){
@@ -48,45 +48,49 @@ public class ClientBaseTransport: NSObject,IClientTransport{
         self.abortHandler = TransportAbortHandler(transportName: transportName)
     }
     
-    public var name:String{
+    open var name:String{
         get{
             return transportName
         }
     }
     
-    public var supportKeepAlive: Bool{
+    open var supportKeepAlive: Bool{
         get{
             fatalError("must override")
         }
     }
 
-    public func negotiate(connection: IConnection, connectionData: String, completion:(ErrorType?,NegotiationResponse?)->()){
+    open func negotiate(_ connection: IConnection, connectionData: String, completion:@escaping (Error?,NegotiationResponse?)->()){
          return transportHelper.getNegotiationResponse(self.httpClient,connection:connection,connectionData: connectionData,completion: completion)
     }
 
-    public func initRecived(connection:IConnection,connectionData:String,completion:(ErrorType?,String?)->()){
+    open func initRecived(_ connection:IConnection,connectionData:String,completion:@escaping (Error?,String?)->()){
         return transportHelper.getStartResponse(httpClient, connection: connection, connectionData: connectionData, transport: transportName,completion:completion)
     }
     
-    public func start(connection: IConnection, connectionData:String, disconnectToken: CancellationToken,completion:(ErrorType?)->()){
+    open func start(_ connection: IConnection, connectionData:String, disconnectToken: CancellationToken,completion:@escaping (Error?)->()){
         fatalError("must override")
     }
     
-    public func send(connection: IConnection, data:String, connectionData:String,completionHandler:((response:Any?,error:ErrorType?)->())?){
+    open func send(_ connection: IConnection, data:String, connectionData:String,completionHandler:((_ response:Any?,_ error:Error?)->())?){
         fatalError("must override")
 
     }
     
-    public func abort(connection: IConnection, timeout:NSTimeInterval,connectionData:String) throws{
-        try abortHandler.abort(connection, timeout: timeout, connectionData: connectionData)
+    open func abort(_ connection: IConnection, timeout:TimeInterval,connectionData:String) throws{
+        do{
+            try abortHandler.abort(connection, timeout: timeout, connectionData: connectionData)
+        }catch let err{
+            
+        }
     }
     
-    public func lostConnection(connection:IConnection){
+    open func lostConnection(_ connection:IConnection){
         fatalError("must override")
     }
     
     
-    public func processResponse(connection:IConnection,message:String)-> Bool{
+    open func processResponse(_ connection:IConnection,message:String)-> Bool{
          connection.markLastMessage()
         
         if message.isEmpty {
@@ -137,11 +141,11 @@ public class ClientBaseTransport: NSObject,IClientTransport{
     }
     
     
-     func initialize(connection:IConnection,connectionData:String,disconnectToken:CancellationToken){
+     func initialize(_ connection:IConnection,connectionData:String,disconnectToken:CancellationToken){
         self.connectionInfo = TransportConnectionInfo(connection: connection, connectionData: connectionData, disconnectToken: disconnectToken)
     }
     
-    func doCompletionCallback(err:ErrorType?){
+    func doCompletionCallback(_ err:Error?){
         self.completion?(err)
         self.completion = nil
     }

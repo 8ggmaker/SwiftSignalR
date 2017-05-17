@@ -7,63 +7,63 @@
 //
 
 import Foundation
-public class Connection: IConnection{
+open class Connection: IConnection{
     
-    static let defaultAbortTimeout = NSTimeInterval(30)
+    static let defaultAbortTimeout = TimeInterval(30)
     
-    private var assemblyVersion: Version! = nil
+    fileprivate var assemblyVersion: Version! = nil
     
-    private let receiveMessageQueue = dispatch_queue_create("swiftsignalR.receivemessage", nil)
+    fileprivate let receiveMessageQueue = DispatchQueue(label: "swiftsignalR.receivemessage", attributes: [])
     
-    private let stateLock = SSRLock()
+    fileprivate let stateLock = SSRLock()
     
-    private let startLock = SSRLock()
+    fileprivate let startLock = SSRLock()
     
-    private var heartBeatMonitor: HeartBeatMonitor! = nil
+    fileprivate var heartBeatMonitor: HeartBeatMonitor! = nil
     
-    private var disconnectCts: CancellationSource! = nil
+    fileprivate var disconnectCts: CancellationSource! = nil
     
-    private var connectionData: String = ""
+    fileprivate var connectionData: String = ""
     
-    public var clientProtocol: Version = Version()
+    open var clientProtocol: Version = Version()
     
-    public var transportConnectTimeout: NSTimeInterval = NSTimeInterval(0)
+    open var transportConnectTimeout: TimeInterval = TimeInterval(0)
     
-    private var disconnectTimeout: NSTimeInterval = NSTimeInterval(0)
+    fileprivate var disconnectTimeout: TimeInterval = TimeInterval(0)
     
-    public var totalTransportConnectTimeout: NSTimeInterval = NSTimeInterval(0)
+    open var totalTransportConnectTimeout: TimeInterval = TimeInterval(0)
     
-    public var reconnectWindow: NSTimeInterval = NSTimeInterval(0)
+    open var reconnectWindow: TimeInterval = TimeInterval(0)
     
-    public var keepAliveData: KeepAliveData? = nil
+    open var keepAliveData: KeepAliveData? = nil
     
-    public var messageId:String? = ""
+    open var messageId:String? = ""
     
-    public var groupsToken:String? = ""
+    open var groupsToken:String? = ""
     
-    public var items:NSMutableDictionary = NSMutableDictionary()
+    open var items:NSMutableDictionary = NSMutableDictionary()
     
-    public var connectionId: String = ""
+    open var connectionId: String = ""
     
-    public var connectionToken: String? = ""
+    open var connectionToken: String? = ""
     
-    public var url: String = ""
+    open var url: String = ""
     
-    public var queryString: String? = ""
+    open var queryString: String? = ""
     
-    public var state: ConnectionState = .Disconnected
+    open var state: ConnectionState = .disconnected
     
-    public var transport: IClientTransport! = nil
+    open var transport: IClientTransport! = nil
     
-    public var lastMessageAt: NSDate = NSDate()
-    
-    
-    public var lastActiveAt: NSDate = NSDate()
+    open var lastMessageAt: Date = Date()
     
     
-    public var headers: NSMutableDictionary = NSMutableDictionary()
+    open var lastActiveAt: Date = Date()
     
-    public var credentials: NSURLCredential{
+    
+    open var headers: NSMutableDictionary = NSMutableDictionary()
+    
+    open var credentials: URLCredential{
         get{
             fatalError("must override")
 
@@ -77,19 +77,19 @@ public class Connection: IConnection{
     
     //MARK: CALL BACK ACTIONS
     
-    public var started: (() -> ())? = nil
+    open var started: (() -> ())? = nil
     
-    public var closed: (() -> ())? = nil
+    open var closed: (() -> ())? = nil
     
-    public var received: (Any? throws -> ())? = nil
+    open var received: ((Any?) throws -> ())? = nil
     
-    public var error: (ErrorType? -> ())? = nil
+    open var error: ((Error?) -> ())? = nil
     
-    public var reconnecting: (() -> ())? = nil
+    open var reconnecting: (() -> ())? = nil
     
-    public var reconnected: (() -> ())? = nil
+    open var reconnected: (() -> ())? = nil
     
-    public var connectionSlow: (() -> ())? = nil
+    open var connectionSlow: (() -> ())? = nil
     
     
     public  convenience init(url:String) throws{
@@ -104,10 +104,10 @@ public class Connection: IConnection{
     public init(url:String,queryString:String) throws{
         
         if url.isEmpty == true{
-            throw CommonException.ArgumentNullException(exception: "url")
+            throw CommonException.argumentNullException(exception: "url")
         }
-        if url.containsString("?"){
-            throw CommonException.InvalidArgumentException(exception: "url")
+        if url.contains("?"){
+            throw CommonException.invalidArgumentException(exception: "url")
         }
         
         self.url = url
@@ -116,33 +116,33 @@ public class Connection: IConnection{
         }
         
         self.queryString = queryString
-        self.lastActiveAt = NSDate()
-        self.lastMessageAt = NSDate()
+        self.lastActiveAt = Date()
+        self.lastMessageAt = Date()
         self.reconnectWindow = 0
         self.items = NSMutableDictionary()
-        self.state = .Disconnected
+        self.state = .disconnected
         self.headers = NSMutableDictionary()
         self.transportConnectTimeout = 0
         self.clientProtocol = try Version(major: 1, minor: 4)
     }
     
     
-    public func start() throws{
+    open func start() throws{
         try start(HttpClient())
     }
     
-    public func start(httpClient:IHttpClient) throws {
+    open func start(_ httpClient:IHttpClient) throws {
         // currently support websocket only
         try start(WebSocketTransport(httpClient: httpClient))
     }
     
-    public func start(transport:IClientTransport)throws {
+    open func start(_ transport:IClientTransport)throws {
         
         try startLock.calculateLockedOrFail({
             
             () -> Void in
             
-            if self.changeState(.Disconnected, newState: .Connecting) == false{
+            if self.changeState(.disconnected, newState: .connecting) == false{
                 return
             }
             
@@ -155,7 +155,7 @@ public class Connection: IConnection{
     }
     
     
-    private func negotiate(transport:IClientTransport){
+    fileprivate func negotiate(_ transport:IClientTransport){
         connectionData = onSending()
         transport.negotiate(self, connectionData: connectionData){
             err,response -> () in
@@ -168,7 +168,7 @@ public class Connection: IConnection{
                     self.disconnectTimeout = response!.disconnectTimeout
                     self.totalTransportConnectTimeout = response!.transportConnectTimeout + self.transportConnectTimeout
                     
-                    var beatInterval = NSTimeInterval(5)
+                    var beatInterval = TimeInterval(5)
                     if response!.keepAliveTimeout != nil{
                         self.keepAliveData = KeepAliveData(timeout: response!.keepAliveTimeout!)
                         self.reconnectWindow = self.disconnectTimeout + (self.keepAliveData?.timeout)!
@@ -193,18 +193,18 @@ public class Connection: IConnection{
         }
     }
     
-    private func startTransport(){
+    fileprivate func startTransport(){
         transport.start(self, connectionData: connectionData, disconnectToken: disconnectCts.token){
             err -> () in
             if err == nil{
-                self.changeState(.Connecting, newState: .Connected)
+                self.changeState(.connecting, newState: .connected)
                 
                 if self.started != nil{
                     self.started!()
                 }
-                self.lastActiveAt = NSDate()
+                self.lastActiveAt = Date()
                 
-                self.lastMessageAt = NSDate()
+                self.lastMessageAt = Date()
                 
                 self.heartBeatMonitor.start()
             }else{
@@ -214,7 +214,7 @@ public class Connection: IConnection{
         }
     }
     
-    public func changeState(oldState:ConnectionState,newState:ConnectionState) -> Bool{
+    open func changeState(_ oldState:ConnectionState,newState:ConnectionState) -> Bool{
         
         let res:Bool = stateLock.calculateLocked({
             () -> Bool in
@@ -230,35 +230,35 @@ public class Connection: IConnection{
         
     }
     
-    private func verifyProtocolVersion(versionStr:String)throws {
+    fileprivate func verifyProtocolVersion(_ versionStr:String)throws {
         var version: Version = Version()
         if versionStr.isEmpty == true || Version.tryParse(versionStr, version:&version) == false || version.isEqual(self.clientProtocol) == false{
-            throw CommonException.InvalidArgumentException(exception: "versionStr")
+            throw CommonException.invalidArgumentException(exception: "versionStr")
         }
     }
-    public func stop(){
+    open func stop(){
         self.stop(Connection.defaultAbortTimeout)
     }
     
     
-    public func stop(error:ErrorType?){
+    open func stop(_ error:Error?){
         self.stop(error,timeout: Connection.defaultAbortTimeout)
     }
     
     
-    public func stop(error:ErrorType?,timeout:NSTimeInterval){
+    open func stop(_ error:Error?,timeout:TimeInterval){
         if error != nil{
             self.onError(error!)
         }
         self.stop(timeout)
     }
     
-    public func stop(timeout:NSTimeInterval){
+    open func stop(_ timeout:TimeInterval){
         do {
             var alreadyStopped = false
             try startLock.calculateLockedOrFail({
                 () -> Void in
-                if self.state == .Disconnected{
+                if self.state == .disconnected{
                     alreadyStopped = true
                     return
                 }})
@@ -272,12 +272,12 @@ public class Connection: IConnection{
             
         }
     }
-    public func disconnect(){
+    open func disconnect(){
         // currently connect task has completed or failed
         stateLock.calculateLocked({
             () -> Void in
-            if self.state != .Disconnected{
-                self.state = .Disconnected
+            if self.state != .disconnected{
+                self.state = .disconnected
                 
                 if self.disconnectCts != nil{
                     self.disconnectCts.cancel()
@@ -306,20 +306,20 @@ public class Connection: IConnection{
         
     }
     
-    public func send(data:String, completionHandler:((response:Any?,error:ErrorType?)->())?){
-        var error: ErrorType? = nil
-        if state == .Disconnected{
-            error = CommonException.InvalidOperationException(exception: "Data cannot be sent, connection disconnected")
+    open func send(_ data:String, completionHandler:((_ response:Any?,_ error:Error?)->())?){
+        var error: Error? = nil
+        if state == .disconnected{
+            error = CommonException.invalidOperationException(exception: "Data cannot be sent, connection disconnected")
             if completionHandler != nil{
-                completionHandler!(response: nil,error: error)
+                completionHandler!(nil,error)
             }
             return
         }
         
-        if state == .Connecting{
-            error = CommonException.InvalidOperationException(exception: "Data cannot be sent, connection connecting")
+        if state == .connecting{
+            error = CommonException.invalidOperationException(exception: "Data cannot be sent, connection connecting")
             if completionHandler != nil{
-                completionHandler!(response: nil, error: error)
+                completionHandler!(nil, error)
             }
             return
         }
@@ -329,14 +329,14 @@ public class Connection: IConnection{
     }
     
     
-    public func send(data:AnyObject,completionHandler:((response:Any?,error:ErrorType?)->())?){
+    open func send(_ data:AnyObject,completionHandler:((_ response:Any?,_ error:Error?)->())?){
         do{
             if let dataStr = try JsonSerialize(data){
                 send(dataStr, completionHandler: completionHandler)
             }
         }catch let err{
             if completionHandler != nil{
-                completionHandler!(response: nil, error: err)
+                completionHandler!(nil, err)
             }
         }
     }
@@ -350,8 +350,8 @@ public class Connection: IConnection{
         }
     }
     
-    public func onReceived(data: Any?){
-        dispatch_async(receiveMessageQueue){
+    open func onReceived(_ data: Any?){
+        receiveMessageQueue.async{
             do{
                 try self.onMessageReceived(data)
             }catch let err{
@@ -361,7 +361,7 @@ public class Connection: IConnection{
     }
     
     
-    func onMessageReceived(message:Any?)throws {
+    func onMessageReceived(_ message:Any?)throws {
         if received != nil{
             do{
                 try received!(message)
@@ -370,22 +370,22 @@ public class Connection: IConnection{
             }
         }
     }
-    public func onError(error:ErrorType){
+    open func onError(_ error:Error){
         SSRLog.log(error,message: nil)
         if self.error != nil{
             self.error!(error)
         }
     }
     
-    public func onReconnecting(){
+    open func onReconnecting(){
         SSRLog.log(nil, message: "reconnecting")
 
-        let delayTimeout = dispatch_time(DISPATCH_TIME_NOW, Int64(self.disconnectTimeout * NSTimeInterval(NSEC_PER_SEC)))
-        dispatch_after(delayTimeout, dispatch_get_main_queue()){
-            if self.state == .Connected{// do nothing, connection resume
+        let delayTimeout = DispatchTime.now() + Double(Int64(self.disconnectTimeout * TimeInterval(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+        DispatchQueue.main.asyncAfter(deadline: delayTimeout){
+            if self.state == .connected{// do nothing, connection resume
                 return
             }
-            self.onError(CommonException.TimeoutException(exception: "reconnct timeout"))
+            self.onError(CommonException.timeoutException(exception: "reconnct timeout"))
             self.disconnect()
         }
         
@@ -394,7 +394,7 @@ public class Connection: IConnection{
         }
     }
     
-    public func onReconnected(){
+    open func onReconnected(){
         
         SSRLog.log(nil, message: "reconnected")
         if reconnected != nil{
@@ -406,7 +406,7 @@ public class Connection: IConnection{
     }
     
     
-    public func onConnectionSlow(){
+    open func onConnectionSlow(){
         SSRLog.log(nil,message: "connection slow")
         
         if connectionSlow != nil{
@@ -414,14 +414,14 @@ public class Connection: IConnection{
         }
     }
     
-    public func markLastMessage(){
-        self.lastMessageAt = NSDate()
+    open func markLastMessage(){
+        self.lastMessageAt = Date()
     }
     
-    public func markActive(){
+    open func markActive(){
         do{
             if try TransportHelper.verifyLastActive(self) == true{
-                self.lastActiveAt = NSDate()
+                self.lastActiveAt = Date()
             }
         }catch let err{
             onError(err)
@@ -434,28 +434,29 @@ public class Connection: IConnection{
     
     
     //MARK: PREPAREREQUEST
-    public func prepareRequest(request:NSMutableURLRequest)-> NSMutableURLRequest{
+    open func prepareRequest(_ request:URLRequest)-> URLRequest{
+        var mutableReq = request
         #if os(iOS)
-            request.addValue(createUserAgentString("SignalR.Client.Swift.iOS"), forHTTPHeaderField: "User-Agent")
+            mutableReq.addValue(createUserAgentString("SignalR.Client.Swift.iOS"), forHTTPHeaderField: "User-Agent")
         #elseif os(OSX)
-            request.addValue(createUserAgentString("SignalR.Client.Swift.OSX"), forHTTPHeaderField: "User-Agent")
+            mutableReq.addValue(createUserAgentString("SignalR.Client.Swift.OSX"), forHTTPHeaderField: "User-Agent")
         #endif
         
-        headers.map{
+        _ = headers.map{
             key,value -> Void in
-            request.addValue(value as! String, forHTTPHeaderField: key as! String)
+            mutableReq.addValue(value as! String, forHTTPHeaderField: key as! String)
         }
         
-        return request
+        return mutableReq
     }
     
-    private func createUserAgentString(client:String)-> String{
+    fileprivate func createUserAgentString(_ client:String)-> String{
         do{
             if assemblyVersion == nil{
                 assemblyVersion = try Version(major: 2, minor: 2, build: 1)
             }
             #if os(iOS)
-                let systemVersion = UIDevice.currentDevice().systemVersion
+                let systemVersion = UIDevice.current.systemVersion
                 return "\(client)/\(assemblyVersion) (\(systemVersion))"
             #elseif os(OSX)
                 var environmentVersion = "";
@@ -475,39 +476,39 @@ public class Connection: IConnection{
         return "\(client)"
     }
     
-    static func createQueryString(queryString:Dictionary<String,String>)-> String{
+    static func createQueryString(_ queryString:Dictionary<String,String>)-> String{
         var query = queryString.map{
             key,value -> String in
             return "\(key)=\(value)"
-            }.reduce("", combine: {
+            }.reduce("", {
                 initialStr,str -> String in
                 return initialStr + str + "&"
             })
         assert(query.isEmpty == false)
         assert(query.characters.last == "&")
-        query.removeAtIndex(query.endIndex.advancedBy(-1))
+        query.remove(at: query.characters.index(query.endIndex, offsetBy: -1))
         return query
     }
     
     
     //MARK: JSON OPERATION
     
-    public var JsonDeSerialize: ((String)throws -> AnyObject? ) = {
+    open var JsonDeSerialize: ((String)throws -> AnyObject? ) = {
         str throws -> AnyObject? in
-        if let data = str.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false){
-            if let json = try? NSJSONSerialization.JSONObjectWithData(data, options: []){
-                return json
+        if let data = str.data(using: String.Encoding.utf8, allowLossyConversion: false){
+            if let json = try? JSONSerialization.jsonObject(with: data, options: []){
+                return json as AnyObject?
             }
         }
         return nil
     }
     
-    public var JsonSerialize: ((AnyObject)throws -> String?) = {
+    open var JsonSerialize: ((AnyObject)throws -> String?) = {
         anyObj throws -> String? in
         
         if let obj = try JsonSerializer.generateValidJsonObject(anyObj){
-            if let jsonData = try? NSJSONSerialization.dataWithJSONObject(obj, options: NSJSONWritingOptions()){
-                if let res = NSString(data: jsonData, encoding: NSUTF8StringEncoding) as? String{
+            if let jsonData = try? JSONSerialization.data(withJSONObject: obj, options: JSONSerialization.WritingOptions()){
+                if let res = NSString(data: jsonData, encoding: String.Encoding.utf8.rawValue) as? String{
 //                    let range = res.startIndex.advancedBy(1) ..< res.endIndex.advancedBy(-1)
                     return res
                 }

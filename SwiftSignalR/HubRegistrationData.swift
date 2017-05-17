@@ -7,18 +7,18 @@
 //
 
 import Foundation
-public class HubRegistrationData{
+open class HubRegistrationData{
     
-    private static let hubNameKey = "Name"
+    fileprivate static let hubNameKey = "Name"
     
-    public var hubName:String? = nil
+    open var hubName:String? = nil
     
     public init(name:String){
         self.hubName = name
     }
     
     
-    public func prepareForJson()-> NSMutableDictionary{
+    open func prepareForJson()-> NSMutableDictionary{
         let dic = NSMutableDictionary()
         dic[HubRegistrationData.hubNameKey] = hubName
         

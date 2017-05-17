@@ -8,8 +8,8 @@
 
 import Foundation
 public enum ConnectionState:Int{
-    case Connecting = 0
-    case Connected
-    case Reconnecting
-    case Disconnected
+    case connecting = 0
+    case connected
+    case reconnecting
+    case disconnected
 }

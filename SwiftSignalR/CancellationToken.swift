@@ -9,13 +9,13 @@
 import Foundation
 
 public struct CancellationToken{
-    private unowned let _source: CancellationSource
+    fileprivate unowned let _source: CancellationSource
     
     init(source:CancellationSource){
         self._source = source
     }
     
-    public func register(clourse: ()->Void){
+    public func register(_ clourse: @escaping ()->Void){
         _source.register(clourse)
     }
     
@@ -26,23 +26,23 @@ public struct CancellationToken{
     }
 }
 
-public class CancellationSource:NSObject{
+open class CancellationSource:NSObject{
     
-    private var _callbacks: [()->Void]? = []
+    fileprivate var _callbacks: [()->Void]? = []
     
     var _isCancelling: Bool = false
     
-    private var _lockQueue: dispatch_queue_t = dispatch_queue_create("CancellationSource.lockQueue",DISPATCH_QUEUE_SERIAL)
+    fileprivate var _lockQueue: DispatchQueue = DispatchQueue(label: "CancellationSource.lockQueue",attributes: [])
     
-    public var token: CancellationToken{
+    open var token: CancellationToken{
         return CancellationToken(source:self)
     }
     
-    func register(closure: ()->Void){
+    func register(_ closure: @escaping ()->Void){
         if _isCancelling{
             return
         }
-        dispatch_sync(_lockQueue){
+        _lockQueue.sync{
             if self._isCancelling{
                 closure()
             }else{
@@ -51,12 +51,12 @@ public class CancellationSource:NSObject{
         }
     }
     
-    public func cancel(){
+    open func cancel(){
         if _isCancelling {
             return
         }
         
-        dispatch_sync(_lockQueue){
+        _lockQueue.sync{
             if !self._isCancelling {
                 self._isCancelling = true
                 self._callbacks?.forEach{$0()}
@@ -65,7 +65,7 @@ public class CancellationSource:NSObject{
         }
     }
     
-    public func dispose(){
+    open func dispose(){
         self._callbacks = nil
     }
     

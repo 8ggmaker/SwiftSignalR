@@ -9,33 +9,33 @@
 import Foundation
 import SocketRocket
 
-public class WebSocketTransport: ClientBaseTransport{
+open class WebSocketTransport: ClientBaseTransport{
     
-    private var websocket: SRWebSocket?
+    fileprivate var websocket: SRWebSocket?
     
-    private var socketWorkerQueue:dispatch_queue_t = dispatch_queue_create("socketrocketwork", nil)
+    fileprivate var socketWorkerQueue:DispatchQueue = DispatchQueue(label: "socketrocketwork", attributes: [])
     
-    private var reconnectTaskQueue: dispatch_queue_t = dispatch_queue_create("reconnecttask", nil)
+    fileprivate var reconnectTaskQueue: DispatchQueue = DispatchQueue(label: "reconnecttask", attributes: [])
     
-    private var reconnectDelay: NSTimeInterval!
+    fileprivate var reconnectDelay: TimeInterval!
     
-    private var reconnectLock: SSRLock!
+    fileprivate var reconnectLock: SSRLock!
         
     public init(httpClient: IHttpClient) {
         websocket = nil
-        reconnectDelay = NSTimeInterval(2)
+        reconnectDelay = TimeInterval(2)
         reconnectLock = SSRLock()
         
         super.init(name: "webSockets", httpClient: httpClient)
     }
     
-    public override var supportKeepAlive: Bool{
+    open override var supportKeepAlive: Bool{
         get{
             return true
         }
     }
     
-    public override func start(connection: IConnection, connectionData: String, disconnectToken: CancellationToken,completion:(ErrorType?)->()) {
+    open override func start(_ connection: IConnection, connectionData: String, disconnectToken: CancellationToken,completion:@escaping (Error?)->()) {
         self.completion = completion
         initialize(connection, connectionData: connectionData, disconnectToken: disconnectToken)
         do{
@@ -49,21 +49,21 @@ public class WebSocketTransport: ClientBaseTransport{
 
     }
     
-    public override func send(connection: IConnection, data:String, connectionData:String,completionHandler:((response:Any?,error:ErrorType?)->())?){
+    open override func send(_ connection: IConnection, data:String, connectionData:String,completionHandler:((_ response:Any?,_ error:Error?)->())?){
         if self.websocket == nil || self.websocket?.readyState != SRReadyState.OPEN{
-            let err = CommonException.InvalidOperationException(exception: "websocket not initialized")
+            let err = CommonException.invalidOperationException(exception: "websocket not initialized")
             if completionHandler != nil{
-                completionHandler!(response: nil, error: err)
+                completionHandler!(nil, err)
             }
         }
         
         websocket?.send(data)
         if completionHandler != nil{
-            completionHandler!(response: nil,error: nil)
+            completionHandler!(nil,nil)
         }
     }
     
-    public override  func lostConnection(connection: IConnection) {
+    open override  func lostConnection(_ connection: IConnection) {
         SSRLog.log(nil, message: "websocket lost connection")
         
         self.stopWebSocket()
@@ -79,27 +79,27 @@ public class WebSocketTransport: ClientBaseTransport{
         doReconnect()
     }
     
-    private func performConnect(connection:IConnection,url:String){
+    fileprivate func performConnect(_ connection:IConnection,url:String){
         
         let wsUrl = UrlBuilder.convertToWebSocketUri(url)
         if wsUrl == nil{
-            self.completion?(CommonException.ArgumentNullException(exception: "wsurl"))
-            connection.onError(CommonException.ArgumentNullException(exception: "wsurl"))
+            self.completion?(CommonException.argumentNullException(exception: "wsurl"))
+            connection.onError(CommonException.argumentNullException(exception: "wsurl"))
             return
         }
         
-        let req = connection.prepareRequest(NSMutableURLRequest(URL: NSURL(string: wsUrl!)!))
+        var req = connection.prepareRequest(URLRequest(url: URL(string: wsUrl!)!))
         req.timeoutInterval = connection.totalTransportConnectTimeout
         
         
-        websocket = SRWebSocket(URLRequest: req)
+        websocket = SRWebSocket(urlRequest: req as URLRequest!)
         websocket?.setDelegateDispatchQueue(socketWorkerQueue)
         websocket?.delegate = self
         
         connectionInfo.disconnectToken.register({
             ()->Void in
             if self.websocket != nil{
-                self.websocket?.closeWithCode(SRStatusCodeNormal.rawValue, reason: "request cancelled")
+                self.websocket?.close(withCode: SRStatusCodeNormal.rawValue, reason: "request cancelled")
                 self.websocket = nil
             }
         })
@@ -108,18 +108,17 @@ public class WebSocketTransport: ClientBaseTransport{
         
     }
     
-    private func stopWebSocket(){
+    fileprivate func stopWebSocket(){
         websocket?.delegate = nil
         websocket?.close()
         websocket = nil
     }
     
-    private func doReconnect(){
+    fileprivate func doReconnect(){
         
         
-        let delay = dispatch_time(DISPATCH_TIME_NOW,
-                                  Int64(self.reconnectDelay * Double(NSEC_PER_SEC)))
-        dispatch_after(delay, self.reconnectTaskQueue){
+        let delay = DispatchTime.now() + Double(Int64(self.reconnectDelay * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+        self.reconnectTaskQueue.asyncAfter(deadline: delay){
             do{
                 let reconnectUrl = try UrlBuilder.buildReconnect(self.connectionInfo.connection, transport: self.name, connectionData: self.connectionInfo.connectionData)
                 if try TransportHelper.verifyLastActive(self.connectionInfo.connection) && self.connectionInfo.connection.ensureReconnecting(){
@@ -138,16 +137,16 @@ public class WebSocketTransport: ClientBaseTransport{
 }
 
 extension WebSocketTransport:SRWebSocketDelegate{
-    @objc public func webSocket(webSocket: SRWebSocket!, didReceiveMessage message: AnyObject!){
-        self.processResponse(connectionInfo.connection, message: message as! String)
+    @objc public func webSocket(_ webSocket: SRWebSocket!, didReceiveMessage message: Any!){
+        _ = self.processResponse(connectionInfo.connection, message: message as! String)
     }
     
-    public func webSocketDidOpen(webSocket: SRWebSocket!){
-        if self.connectionInfo.connection.changeState(.Reconnecting, newState: .Connected) == true{
+    public func webSocketDidOpen(_ webSocket: SRWebSocket!){
+        if self.connectionInfo.connection.changeState(.reconnecting, newState: .connected) == true{
            self.connectionInfo.connection.onReconnected()
         }
     }
-    public func webSocket(webSocket: SRWebSocket!, didFailWithError error: NSError!){
+    public func webSocket(_ webSocket: SRWebSocket!, didFailWithError error: Error!){
         self.stopWebSocket()
 
         if self.connected == false{
@@ -164,7 +163,7 @@ extension WebSocketTransport:SRWebSocketDelegate{
         doReconnect()
         
     }
-    public func webSocket(webSocket: SRWebSocket!, didCloseWithCode code: Int, reason: String!, wasClean: Bool){
+    public func webSocket(_ webSocket: SRWebSocket!, didCloseWithCode code: Int, reason: String!, wasClean: Bool){
         
         if self.connectionInfo.disconnectToken.isCancelling{
             return
@@ -177,7 +176,7 @@ extension WebSocketTransport:SRWebSocketDelegate{
         doReconnect()
         
     }
-    public func webSocket(webSocket: SRWebSocket!, didReceivePong pongPayload: NSData!){
+    public func webSocket(_ webSocket: SRWebSocket!, didReceivePong pongPayload: Data!){
         
     }
 }

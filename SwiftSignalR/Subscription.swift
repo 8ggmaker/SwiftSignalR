@@ -7,13 +7,13 @@
 //
 
 import Foundation
-public class Subscription{
-    private var action : ([AnyObject?]?->())? = nil
-    public func setAction(action:([AnyObject?]?->())){
+open class Subscription{
+    fileprivate var action : (([AnyObject?]?)->())? = nil
+    open func setAction(_ action:@escaping (([AnyObject?]?)->())){
         self.action = action
     }
     
-    public func executeAction(args:[AnyObject?]?){
+    open func executeAction(_ args:[AnyObject?]?){
         self.action!(args)
     }
 }

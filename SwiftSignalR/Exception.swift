@@ -7,14 +7,14 @@
 //
 
 import Foundation
-enum CommonException:ErrorType{
-    case InvalidArgumentException(exception: String)
-    case ArgumentNullException(exception:String)
-    case InvalidOperationException(exception: String)
-    case TimeoutException(exception:String)
+enum CommonException:Error{
+    case invalidArgumentException(exception: String)
+    case argumentNullException(exception:String)
+    case invalidOperationException(exception: String)
+    case timeoutException(exception:String)
 }
 
 
-enum SwiftSignalRException:ErrorType {
-    case ServerOperationException(exception:String,data:Any?)
+enum SwiftSignalRException:Error {
+    case serverOperationException(exception:String,data:Any?)
 }

@@ -9,7 +9,7 @@
 import Foundation
 import Alamofire
 public protocol IHttpClient {
-    func get(url:String,cancellationToken:CancellationToken?,data:String?,completion:(ErrorType?,String?)->())->Request
+    func get(_ url:String,cancellationToken:CancellationToken?,completion:@escaping(Error?,String?)->())->DataRequest
     
-    func post(url:String,cancellationToken:CancellationToken?,data:String?,completion:(ErrorType?,String?)->())->Request
+    func post(_ url:String,cancellationToken:CancellationToken?,data:Parameters?,completion:@escaping(Error?,String?)->())->DataRequest
 }

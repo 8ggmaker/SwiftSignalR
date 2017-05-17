@@ -10,10 +10,10 @@ import Foundation
 extension IConnection{
     public func ensureReconnecting()-> Bool{
         
-        if self.changeState(.Connected, newState: .Reconnecting){
+        if self.changeState(.connected, newState: .reconnecting){
             self.onReconnecting()
         }
         
-        return self.state == .Reconnecting
+        return self.state == .reconnecting
     }
 }

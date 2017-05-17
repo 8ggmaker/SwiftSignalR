@@ -436,12 +436,15 @@
 				TargetAttributes = {
 					3B4DCBDA1DD623B4008CC256 = {
 						CreatedOnToolsVersion = 7.3.1;
+						LastSwiftMigration = 0820;
 					};
 					3BB3D7871EBC894700A9F2CC = {
 						CreatedOnToolsVersion = 7.3.1;
 					};
 					3BC3D33E1E152E4C00F8C9C2 = {
 						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = UBF8T346G9;
+						LastSwiftMigration = 0820;
 					};
 				};
 			};
@@ -818,6 +821,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -837,6 +841,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = zsy.SwiftSignalR;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -844,6 +849,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5C0A00ECE57E06ADCE77BBD4 /* Pods-SwiftSignalRUnitTest.debug.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = SwiftSignalRUnitTest/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = zsy.SwiftSignalRUnitTest;
@@ -855,6 +861,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 291C1ACBB85FB3538EC8578B /* Pods-SwiftSignalRUnitTest.release.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = SwiftSignalRUnitTest/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = zsy.SwiftSignalRUnitTest;
@@ -868,6 +875,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = UBF8T346G9;
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = SwiftSignalRTest/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
@@ -875,6 +883,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = zsy.SwiftSignalRTest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRIP_STYLE = all;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -884,6 +893,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = UBF8T346G9;
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = SwiftSignalRTest/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
@@ -891,6 +901,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = zsy.SwiftSignalRTest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRIP_STYLE = all;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};

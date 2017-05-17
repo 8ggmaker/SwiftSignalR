@@ -7,17 +7,17 @@
 //
 
 import Foundation
-public class HubConnection: Connection, IHubConnection{
+open class HubConnection: Connection, IHubConnection{
     
-    private var hubs: Dictionary<String,IHubProxy> = Dictionary<String,IHubProxy>()
+    fileprivate var hubs: Dictionary<String,IHubProxy> = Dictionary<String,IHubProxy>()
     
-    private var callbacks: Dictionary<String,(HubResult?->())> = Dictionary<String,(HubResult?->())>()
+    fileprivate var callbacks: Dictionary<String,((HubResult?)->())> = Dictionary<String,((HubResult?)->())>()
     
-    private var callbackId: UInt64 = 0
+    fileprivate var callbackId: UInt64 = 0
     
-    private let idIncrementLock: SSRLock = SSRLock()
+    fileprivate let idIncrementLock: SSRLock = SSRLock()
     
-    private let callbackLock: SSRLock = SSRLock()
+    fileprivate let callbackLock: SSRLock = SSRLock()
     
     public convenience init (url:String)throws {
         try self.init(url: url,useDefault: true)
@@ -35,10 +35,10 @@ public class HubConnection: Connection, IHubConnection{
         try super.init(url: HubConnection.getUrl(url, useDefault: useDefault), queryString: HubConnection.createQueryString(queryString))
     }
     
-    public func registerCallback(callback: (HubResult?->()))-> String?{
+    open func registerCallback(_ callback: @escaping (HubResult?)->())-> String?{
         
         if self.callbackId == UInt64.max{
-            SSRLog.log(CommonException.InvalidArgumentException(exception: "call back id reach\(UInt64.max)"), message: nil)
+            SSRLog.log(CommonException.invalidArgumentException(exception: "call back id reach\(UInt64.max)"), message: nil)
             return nil
         }
         
@@ -55,20 +55,20 @@ public class HubConnection: Connection, IHubConnection{
     }
     
     
-    public func removeCallback(callbackId:String){
+    open func removeCallback(_ callbackId:String){
         callbacks[callbackId] = nil
     }
     
     
-    public func createHubProxy(hubName:String) ->IHubProxy?{
-        if self.state != .Disconnected{
-            SSRLog.log(CommonException.InvalidArgumentException(exception: "create hub proxy"), message: "can not create proxy after connection has been started")
+    open func createHubProxy(_ hubName:String) ->IHubProxy?{
+        if self.state != .disconnected{
+            SSRLog.log(CommonException.invalidArgumentException(exception: "create hub proxy"), message: "can not create proxy after connection has been started")
             return nil
         }
         
-        if hubs[hubName.lowercaseString] == nil{
-            let hub = HubProxy(name: hubName.lowercaseString, connection: self)
-            hubs[hubName.lowercaseString] = hub
+        if hubs[hubName.lowercased()] == nil{
+            let hub = HubProxy(name: hubName.lowercased(), connection: self)
+            hubs[hubName.lowercased()] = hub
             
             return hub
         }
@@ -76,22 +76,22 @@ public class HubConnection: Connection, IHubConnection{
         return nil
     }
     
-    private static func getUrl(url:String,useDefault:Bool)-> String{
+    fileprivate static func getUrl(_ url:String,useDefault:Bool)-> String{
         var resUrl = url
         if resUrl.characters.last != "/" {
-            resUrl.appendContentsOf("/")
+            resUrl.append("/")
         }
         if useDefault == true{
-            resUrl.appendContentsOf("signalr")
+            resUrl.append("signalr")
         }
         return resUrl
     }
     
-    public func clearInvocationCallbacks(error:String?){
-        var errorCallbacks: [(HubResult?->())]! = nil
+    open func clearInvocationCallbacks(_ error:String?){
+        var errorCallbacks: [((HubResult?)->())]! = nil
         callbackLock.performLocked({
             errorCallbacks = Array(self.callbacks.values)
-            self.callbacks = Dictionary<String,(HubResult?->())>()
+            self.callbacks = Dictionary<String,((HubResult?)->())>()
         })
         for callback in errorCallbacks{
             let hubResult = HubResult()
@@ -100,13 +100,13 @@ public class HubConnection: Connection, IHubConnection{
         }
     }
     
-    public override func onReceived(data: Any?) {
+    open override func onReceived(_ data: Any?) {
         
         if let dic = data as? [String:AnyObject]{
             
             if dic["P"] != nil{
                 let hubResult = HubResult(parameters: dic)
-                var callback:(HubResult->())? = nil
+                var callback:((HubResult)->())? = nil
                 callbackLock.performLocked({
                     if hubResult.progressUpdate != nil && hubResult.progressUpdate?.id != nil && hubResult.progressUpdate!.id?.isEmpty == false{
                         if self.callbacks[(hubResult.progressUpdate?.id)!] != nil{
@@ -119,7 +119,7 @@ public class HubConnection: Connection, IHubConnection{
                 }
             }else if dic["I"] != nil{
                 let hubResult = HubResult(parameters: dic)
-                var callback: (HubResult->())? = nil
+                var callback: ((HubResult)->())? = nil
                 callbackLock.performLocked({
                     if hubResult.id != nil && hubResult.id?.isEmpty == false{
                         if self.callbacks[hubResult.id!] != nil{
@@ -135,8 +135,8 @@ public class HubConnection: Connection, IHubConnection{
                 let invocation = HubInvocation(parameters: dic)
                 var hubProxy: HubProxy? = nil
                 
-                if hubs[invocation.hub.lowercaseString] != nil{
-                    hubProxy = hubs[invocation.hub.lowercaseString] as? HubProxy
+                if hubs[invocation.hub.lowercased()] != nil{
+                    hubProxy = hubs[invocation.hub.lowercased()] as? HubProxy
                     if invocation.state != nil{
                          hubProxy?.setState(invocation.state!)
                     }
@@ -157,7 +157,7 @@ public class HubConnection: Connection, IHubConnection{
         
     }
     
-    public override func onSending() -> String {
+    open override func onSending() -> String {
         var data = [AnyObject]()
         hubs.flatMap({
             key,val -> HubRegistrationData in
@@ -167,7 +167,7 @@ public class HubConnection: Connection, IHubConnection{
             data.append(registrationData.prepareForJson())
         })
         do{
-            return try self.JsonSerialize(data)!
+            return try self.JsonSerialize(data as AnyObject)!
         }catch{
             
         }

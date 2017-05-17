@@ -7,34 +7,34 @@
 //
 
 import Foundation
-public class HubResult{
-    private static let idkey = "I"
+open class HubResult{
+    fileprivate static let idkey = "I"
     
-    private static let progressUpdateKey = "P"
+    fileprivate static let progressUpdateKey = "P"
     
-    private static let resultKey = "R"
+    fileprivate static let resultKey = "R"
     
-    private static let isHubExceptionKey = "H"
+    fileprivate static let isHubExceptionKey = "H"
     
-    private static let errorKey = "E"
+    fileprivate static let errorKey = "E"
     
-    private static let errorDataKey = "D"
+    fileprivate static let errorDataKey = "D"
     
-    private static let stateKey = "S"
+    fileprivate static let stateKey = "S"
     
-    public var id: String? = ""
+    open var id: String? = ""
     
-    public var progressUpdate: HubProgressUpdate? = nil
+    open var progressUpdate: HubProgressUpdate? = nil
     
-    public var result: Any? = nil
+    open var result: Any? = nil
     
-    public var isHubException: Bool? = nil
+    open var isHubException: Bool? = nil
     
-    public var error: String? = nil
+    open var error: String? = nil
     
-    public var errorData: Any? = nil
+    open var errorData: Any? = nil
     
-    public var state: [String:AnyObject]? = nil
+    open var state: [String:AnyObject]? = nil
     
     
     public init(){

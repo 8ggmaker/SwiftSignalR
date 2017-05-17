@@ -5,8 +5,7 @@
 
   # Pods for SwiftSignalR
   def pods
-  pod 'Alamofire', '3.5.1'
-  pod 'EVReflection', '~>2.6'
+  pod 'Alamofire', ‘~> 4.4’
   pod 'SocketRocket'
   
   end

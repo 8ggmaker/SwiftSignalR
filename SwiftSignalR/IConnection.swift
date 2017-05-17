@@ -13,16 +13,16 @@ public protocol IConnection:class{
         set
     }
     
-    var transportConnectTimeout: NSTimeInterval{
+    var transportConnectTimeout: TimeInterval{
         get
         set
     }
     
-    var totalTransportConnectTimeout: NSTimeInterval{
+    var totalTransportConnectTimeout: TimeInterval{
         get
     }
     
-    var reconnectWindow: NSTimeInterval{
+    var reconnectWindow: TimeInterval{
         get
         set
     }
@@ -70,12 +70,12 @@ public protocol IConnection:class{
         get
     }
     
-    var lastMessageAt: NSDate{
+    var lastMessageAt: Date{
         get
     }
     
     
-    var lastActiveAt: NSDate{
+    var lastActiveAt: Date{
         get
     }
     
@@ -83,22 +83,22 @@ public protocol IConnection:class{
         get
     }
     
-    var credentials: NSURLCredential{
+    var credentials: URLCredential{
         get
         set
     }
     
-    func changeState(oldState:ConnectionState,newState:ConnectionState) -> Bool
+    func changeState(_ oldState:ConnectionState,newState:ConnectionState) -> Bool
     
     func stop()
     
     func disconnect()
     
-    func send(data:String, completionHandler:((response:Any?,error:ErrorType?)->())?)
+    func send(_ data:String, completionHandler:((_ response:Any?,_ error:Error?)->())?)
     
-    func onReceived(data: Any?)
+    func onReceived(_ data: Any?)
     
-    func onError(error:ErrorType)
+    func onError(_ error:Error)
     
     func onReconnecting()
     
@@ -110,7 +110,7 @@ public protocol IConnection:class{
     
     func markActive()
     
-    func prepareRequest(request:NSMutableURLRequest)-> NSMutableURLRequest
+    func prepareRequest(_ request:URLRequest)-> URLRequest
     
     var JsonDeSerialize: ((String)throws -> AnyObject? ){
         get

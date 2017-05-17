@@ -8,25 +8,25 @@
 
 import Foundation
 class JsonSerializer{
-    class func generateValidJsonObject(object:AnyObject?)throws ->AnyObject?{
+    class func generateValidJsonObject(_ object:Any?)throws ->Any?{
         if let dic = object as? NSDictionary{
             let jsonDic = NSMutableDictionary()
             for key in dic.allKeys{
-                if let validKeyStr = key as? NSString{
-                    jsonDic.setValue(try generateValidJsonObject(dic[validKeyStr]), forKey: validKeyStr as String)
+                if let validKeyStr = key as? String{
+                    jsonDic.setValue(try generateValidJsonObject(dic[key]), forKey: validKeyStr)
                 }else{
-                    throw CommonException.InvalidArgumentException(exception: "object cannot transfer to valid json object")
+                    throw CommonException.invalidArgumentException(exception: "object cannot transfer to valid json object")
                 }
             }
             return jsonDic
         }else if let arr = object as? NSArray{
             let jsonArr = NSMutableArray()
             for val in arr{
-                let obj = try generateValidJsonObject(val)
+                let obj = try generateValidJsonObject(val as AnyObject?)
                 if obj == nil{
-                    jsonArr.addObject(NSNull())
+                    jsonArr.add(NSNull())
                 }else{
-                    jsonArr.addObject(obj!)
+                    jsonArr.add(obj!)
                 }
             }
             return jsonArr
@@ -37,15 +37,15 @@ class JsonSerializer{
             return try generateValidJsonObject(json)
         }
         
-        throw CommonException.InvalidArgumentException(exception: "object cannot transfer to valid json object")
+        throw CommonException.invalidArgumentException(exception: "object cannot transfer to valid json object")
     }
     
-    static func isFoundationType(object:Any?)->Bool{
+    static func isFoundationType(_ object:Any?)->Bool{
         return object == nil || object is Int8 || object is Int8?
                 || object is Int16 || object is Int16? || object is Int32
                 || object is Int32? || object is Int64 || object is Int64?
                 || object is Float || object is Float? || object is Double
                 || object is Double? || object is String || object is String? || object is NSDate
-                || object is NSDate?
+                || object is Date?
     }
 }

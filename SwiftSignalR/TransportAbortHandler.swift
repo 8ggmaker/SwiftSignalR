@@ -8,37 +8,37 @@
 
 import Foundation
 import Alamofire
-public class TransportAbortHandler{
+open class TransportAbortHandler{
     
-    private var transportName:String
+    fileprivate var transportName:String
     
-    private var startedAbort: Bool
+    fileprivate var startedAbort: Bool
     
-    private var abortqueue : dispatch_queue_t
+    fileprivate var abortqueue : DispatchQueue
     
     public init(transportName:String){
         
         self.transportName = transportName
         
-        abortqueue = dispatch_queue_create("TransportAbortHandler.Abortqueue", DISPATCH_QUEUE_SERIAL)
+        abortqueue = DispatchQueue(label: "TransportAbortHandler.Abortqueue", attributes: [])
         
         startedAbort = false
     }
     
-    public func abort(connection:IConnection?,timeout:NSTimeInterval,connectionData:String)throws {
+    open func abort(_ connection:IConnection?,timeout:TimeInterval,connectionData:String)throws {
         if connection == nil{
-            throw CommonException.ArgumentNullException(exception: "connection")
+            throw CommonException.argumentNullException(exception: "connection")
         }
         
-        dispatch_sync(abortqueue){
+        abortqueue.sync{
             if !self.startedAbort{
                 self.startedAbort = true
                 
                 do{
                     let url = try UrlBuilder.buildAbort(connection, transport: self.transportName, connectionData: connectionData)
-                    let request = NSMutableURLRequest(URL: NSURL(string: url)!)
+                    var request = URLRequest(url: URL(string: url)!)
                     request.timeoutInterval = timeout
-                    let swiftRequest = Alamofire.Manager.sharedInstance.request((connection?.prepareRequest(request))!)
+                    let swiftRequest = Alamofire.SessionManager.default.request((connection?.prepareRequest(request))! as URLRequestConvertible)
                     
                     swiftRequest.responseData(){
                         response in
@@ -57,11 +57,11 @@ public class TransportAbortHandler{
         }
     }
     
-    public func completeAbort(){
+    open func completeAbort(){
         startedAbort = true
     }
     
-    public func TryCompleteAbort()-> Bool{
+    open func TryCompleteAbort()-> Bool{
     
         return startedAbort
     }

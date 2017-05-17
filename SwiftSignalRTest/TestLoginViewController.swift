@@ -10,15 +10,15 @@ import UIKit
 import SwiftSignalR
 class TestLoginViewController: UIViewController {
     
-    private var nameInput: UITextField!
+    fileprivate var nameInput: UITextField!
     
-    private var loginBtn: UIButton!
+    fileprivate var loginBtn: UIButton!
     
-    private var connection: HubConnection! = nil
+    fileprivate var connection: HubConnection! = nil
     
-    private var testHubProxy: HubProxy! = nil
+    fileprivate var testHubProxy: HubProxy! = nil
 
-    static let NewMessage = "NewMessage"
+    static let NewMessage = Notification.Name("NewMessage")
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,36 +36,36 @@ class TestLoginViewController: UIViewController {
     func setup(){
         nameInput = UITextField()
         nameInput.delegate = self
-        nameInput.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.6)
-        nameInput.borderStyle = .Line
+        nameInput.backgroundColor = UIColor.white.withAlphaComponent(0.6)
+        nameInput.borderStyle = .line
         nameInput.placeholder = "Input your name"
         
         self.view.addSubview(nameInput)
         
         loginBtn = UIButton()
-        loginBtn.setTitle("Login", forState: .Normal)
-        loginBtn.backgroundColor = UIColor.greenColor().colorWithAlphaComponent(0.6)
+        loginBtn.setTitle("Login", for: UIControlState())
+        loginBtn.backgroundColor = UIColor.green.withAlphaComponent(0.6)
         loginBtn.sizeToFit()
-        loginBtn.addTarget(self, action: #selector(start), forControlEvents: .TouchUpInside)
+        loginBtn.addTarget(self, action: #selector(start), for: .touchUpInside)
         
         self.view.addSubview(loginBtn)
         
         self.buildConstraints()
-        self.view.backgroundColor = UIColor.whiteColor()
+        self.view.backgroundColor = UIColor.white
     }
     
-    private func buildConstraints(){
+    fileprivate func buildConstraints(){
         self.nameInput.translatesAutoresizingMaskIntoConstraints = false
         self.loginBtn.translatesAutoresizingMaskIntoConstraints = false
         
-        self.view.addConstraint(NSLayoutConstraint(item: self.nameInput, attribute: .CenterX, relatedBy: .Equal, toItem: self.view, attribute: .CenterX, multiplier: 1.0, constant: 0))
-        self.view.addConstraint(NSLayoutConstraint(item: self.nameInput, attribute: .CenterY, relatedBy: .Equal, toItem: self.view, attribute: .CenterY, multiplier: 1.0, constant: -80))
-        self.view.addConstraint(NSLayoutConstraint(item: self.nameInput, attribute: .Width, relatedBy: .Equal, toItem: self.view, attribute: .Width, multiplier: 1.0, constant: -150))
-        self.view.addConstraint(NSLayoutConstraint(item: self.nameInput, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 0, constant: 35))
+        self.view.addConstraint(NSLayoutConstraint(item: self.nameInput, attribute: .centerX, relatedBy: .equal, toItem: self.view, attribute: .centerX, multiplier: 1.0, constant: 0))
+        self.view.addConstraint(NSLayoutConstraint(item: self.nameInput, attribute: .centerY, relatedBy: .equal, toItem: self.view, attribute: .centerY, multiplier: 1.0, constant: -80))
+        self.view.addConstraint(NSLayoutConstraint(item: self.nameInput, attribute: .width, relatedBy: .equal, toItem: self.view, attribute: .width, multiplier: 1.0, constant: -150))
+        self.view.addConstraint(NSLayoutConstraint(item: self.nameInput, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 0, constant: 35))
         
-        self.view.addConstraint(NSLayoutConstraint(item: self.loginBtn, attribute: .CenterX, relatedBy: .Equal, toItem: self.view, attribute: .CenterX, multiplier: 1.0, constant: 0))
-        self.view.addConstraint(NSLayoutConstraint(item: self.loginBtn, attribute: .Top, relatedBy: .Equal, toItem: self.nameInput, attribute: .Bottom, multiplier: 1.0, constant: 20))
-        self.view.addConstraint(NSLayoutConstraint(item: self.loginBtn, attribute: .Width, relatedBy: .Equal, toItem: self.nameInput, attribute: .Width, multiplier: 1.0, constant: 0.0))
+        self.view.addConstraint(NSLayoutConstraint(item: self.loginBtn, attribute: .centerX, relatedBy: .equal, toItem: self.view, attribute: .centerX, multiplier: 1.0, constant: 0))
+        self.view.addConstraint(NSLayoutConstraint(item: self.loginBtn, attribute: .top, relatedBy: .equal, toItem: self.nameInput, attribute: .bottom, multiplier: 1.0, constant: 20))
+        self.view.addConstraint(NSLayoutConstraint(item: self.loginBtn, attribute: .width, relatedBy: .equal, toItem: self.nameInput, attribute: .width, multiplier: 1.0, constant: 0.0))
     }
     
     func start(){
@@ -73,30 +73,31 @@ class TestLoginViewController: UIViewController {
             if nameInput.text == nil || (nameInput.text?.isEmpty)!{
                 return
             }
-            loginBtn.enabled = false
+            loginBtn.isEnabled = false
             
             connection = try HubConnection(url: "https://swiftsignalrtest.azurewebsites.net")
             testHubProxy = connection.createHubProxy("TestHub") as? HubProxy
             testHubProxy.on("onNewMessage", action: {
                 args -> () in
-                if args == nil || args?.count < 2{
+                if args == nil || (args?.count)! < 2{
                     return
                 }
                 let user = args![0] as! String!
                 let msg = args![1] as! String!
                 print("\(user): \(msg)")
-                NSNotificationCenter.defaultCenter().postNotificationName(TestLoginViewController.NewMessage, object: nil, userInfo: ["sender":user,"msg":msg])
+                NotificationCenter.default.post(name:TestLoginViewController.NewMessage,object:["sender":user,"msg":msg])
+
             })
             
             connection.started = {
                 print("started")
-                dispatch_async(dispatch_get_main_queue()){
-                    self.loginBtn.enabled = true
+                DispatchQueue.main.async{
+                    self.loginBtn.isEnabled = true
 
                     let chatController = TestSwiftSignalRViewController()
                     chatController.delegate = self
                     chatController.userName = self.nameInput.text!
-                    self.presentViewController(chatController, animated: true, completion: nil)
+                    self.present(chatController, animated: true, completion: nil)
                 }
                 
             }
@@ -114,14 +115,14 @@ class TestLoginViewController: UIViewController {
             
         }catch let err{
             print(err)
-            loginBtn.enabled = true
+            loginBtn.isEnabled = true
             
         }
         
     }
     
-    func send(user:String,msg:String,compeletionHandler:(Bool->())){
-        testHubProxy.invoke("SendMessage", params: [user,msg], completionHandler: {
+    func send(_ user:String,msg:String,compeletionHandler:@escaping ((Bool)->())){
+        testHubProxy.invoke("SendMessage", params: [user as Optional<AnyObject>,msg as Optional<AnyObject>], completionHandler: {
             (res,err) -> () in
             if err != nil{
                 print(err!)
@@ -146,7 +147,7 @@ class TestLoginViewController: UIViewController {
 
 
 extension TestLoginViewController: UITextFieldDelegate{
-    func textFieldShouldReturn(textField: UITextField) -> Bool{
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool{
         return true
     }
 

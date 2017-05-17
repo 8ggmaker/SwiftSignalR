@@ -12,25 +12,25 @@ protocol Lock {
     func unlock()
 }
 
-public class SSRLock: Lock{
+open class SSRLock: Lock{
     
     
-    private var semaphore: dispatch_semaphore_t! = nil
+    fileprivate var semaphore: DispatchSemaphore! = nil
     
     public init(){
-        semaphore = dispatch_semaphore_create(1)
+        semaphore = DispatchSemaphore(value: 1)
     }
     
-    public func lock() {
-        dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER)
+    open func lock() {
+        semaphore.wait()
     }
     
-    public func unlock() {
-        dispatch_semaphore_signal(semaphore)
+    open func unlock() {
+        semaphore.signal()
     }
     
     @inline(__always)
-    public func performLocked(action:()->Void){
+    open func performLocked(_ action:()->Void){
         lock(); defer{
             unlock()
         }
@@ -38,7 +38,7 @@ public class SSRLock: Lock{
     }
     
     @inline(__always)
-    public func calculateLocked<T>(action:() -> T)->T{
+    open func calculateLocked<T>(_ action:() -> T)->T{
         lock(); defer{
             unlock()
         }
@@ -46,7 +46,7 @@ public class SSRLock: Lock{
     }
     
     @inline(__always)
-    public func calculateLockedOrFail<T>(action:()throws -> T)throws ->T{
+    open func calculateLockedOrFail<T>(_ action:()throws -> T)throws ->T{
         lock(); defer{
             unlock()
         }

@@ -7,27 +7,27 @@
 //
 
 import Foundation
-public class HubInvocation: Jsonable{
+open class HubInvocation: Jsonable{
     
-    private static let callbackIdKey = "I"
+    fileprivate static let callbackIdKey = "I"
     
-    private static let hubKey = "H"
+    fileprivate static let hubKey = "H"
     
-    private static let methodKey = "M"
+    fileprivate static let methodKey = "M"
     
-    private static let argsKey = "A"
+    fileprivate static let argsKey = "A"
     
-    private static let stateKey = "S"
+    fileprivate static let stateKey = "S"
     
-    public var callbackId: String?
+    open var callbackId: String?
     
-    public var hub: String
+    open var hub: String
     
-    public var method: String
+    open var method: String
     
-    public var args: [AnyObject]? = nil
+    open var args: [AnyObject]? = nil
     
-    public var state: [String:AnyObject]? = nil
+    open var state: [String:AnyObject]? = nil
     
     public init(callbackId:String?,hub:String,method:String,args:[AnyObject]? = nil,state:[String:AnyObject]? = nil){
         self.callbackId = callbackId
@@ -50,7 +50,7 @@ public class HubInvocation: Jsonable{
         }
     }
     
-    public func toJsonObject()-> NSDictionary{
+    open func toJsonObject()-> NSDictionary{
         let dic = NSMutableDictionary()
         dic[HubInvocation.callbackIdKey] = self.callbackId
         dic[HubInvocation.hubKey] = self.hub

@@ -13,14 +13,14 @@ public protocol IClientTransport{
     
     var supportKeepAlive: Bool{get}
     
-    func negotiate(connection: IConnection, connectionData: String,completion:(ErrorType?,NegotiationResponse?)->())
+    func negotiate(_ connection: IConnection, connectionData: String,completion:@escaping (Error?,NegotiationResponse?)->())
     
-    func start(connection: IConnection, connectionData:String, disconnectToken: CancellationToken,completion:(ErrorType?)->())
+    func start(_ connection: IConnection, connectionData:String, disconnectToken: CancellationToken,completion:@escaping (Error?)->())
     
-    func send(connection: IConnection, data:String, connectionData:String,completionHandler:((response:Any?,error:ErrorType?)->())?)
+    func send(_ connection: IConnection, data:String, connectionData:String,completionHandler:((_ response:Any?,_ error:Error?)->())?)
     
-    func abort(connection: IConnection, timeout:NSTimeInterval,connectionData:String) throws
+    func abort(_ connection: IConnection, timeout:TimeInterval,connectionData:String) throws
     
-    func lostConnection(connection:IConnection)
+    func lostConnection(_ connection:IConnection)
     
 }

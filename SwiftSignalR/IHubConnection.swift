@@ -8,7 +8,7 @@
 
 import Foundation
 public protocol IHubConnection:class, IConnection{
-    func registerCallback(callback: (HubResult?->()))-> String?
+    func registerCallback(_ callback:@escaping (HubResult?)->())-> String?
     
-    func removeCallback(callbackId:String)
+    func removeCallback(_ callbackId:String)
 }

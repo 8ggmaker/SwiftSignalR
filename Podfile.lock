@@ -1,24 +1,21 @@
 PODS:
-  - Alamofire (3.5.1)
-  - EVReflection (2.46.0)
+  - Alamofire (4.4.0)
   - JSQMessagesViewController (7.3.4):
     - JSQSystemSoundPlayer (~> 2.0.1)
   - JSQSystemSoundPlayer (2.0.1)
   - SocketRocket (0.5.1)
 
 DEPENDENCIES:
-  - Alamofire (= 3.5.1)
-  - EVReflection (~> 2.6)
+  - Alamofire (~> 4.4)
   - JSQMessagesViewController
   - SocketRocket
 
 SPEC CHECKSUMS:
-  Alamofire: 0dfba1184a543e2aa160f4e39cac4e8aba48d223
-  EVReflection: 17b377f0dd86a0f6ceccab574d0e22962a2f107e
+  Alamofire: dc44b1600b800eb63da6a19039a0083d62a6a62d
   JSQMessagesViewController: 39fed975e3c9f8eba7292071e29eeb541d105e66
   JSQSystemSoundPlayer: c5850e77a4363ffd374cd851154b9af93264ed8d
   SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
 
-PODFILE CHECKSUM: 1e1776f5da1a2d7752dc57cb3a490e8b79764617
+PODFILE CHECKSUM: 0479c04aca84b607c0d2e360654cf012b65e7d1a
 
 COCOAPODS: 1.0.1

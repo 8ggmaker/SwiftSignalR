@@ -7,36 +7,36 @@
 //
 
 import Foundation
-public class KeepAliveData{
+open class KeepAliveData{
     
-    private let _keepAliveWarnAt: Double = 2.0 / 3.0
+    fileprivate let _keepAliveWarnAt: Double = 2.0 / 3.0
     
-    private var _timeout: NSTimeInterval = 0
+    fileprivate var _timeout: TimeInterval = 0
     
-    private var _timeoutWarning: NSTimeInterval = 0
+    fileprivate var _timeoutWarning: TimeInterval = 0
     
-    private var _checkInterval: NSTimeInterval = 0
+    fileprivate var _checkInterval: TimeInterval = 0
     
-    public var timeout: NSTimeInterval{
+    open var timeout: TimeInterval{
         return _timeout
     }
     
-    public var timeoutWarning: NSTimeInterval{
+    open var timeoutWarning: TimeInterval{
         return _timeoutWarning
     }
     
-    public var checkInterval: NSTimeInterval{
+    open var checkInterval: TimeInterval{
         return _checkInterval
     }
     
-    init(timeout: NSTimeInterval){
+    init(timeout: TimeInterval){
         _timeout = timeout
         _timeoutWarning = timeout * _keepAliveWarnAt
         _checkInterval = timeout - _timeoutWarning/3
         
     }
     
-    init(timeout:NSTimeInterval, timeoutWarning:NSTimeInterval,checkInterval:NSTimeInterval){
+    init(timeout:TimeInterval, timeoutWarning:TimeInterval,checkInterval:TimeInterval){
         _timeout = timeout
         _timeoutWarning = timeoutWarning
         _checkInterval = checkInterval

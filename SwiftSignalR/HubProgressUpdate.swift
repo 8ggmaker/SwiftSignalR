@@ -7,14 +7,14 @@
 //
 
 import Foundation
-public class HubProgressUpdate{
-    private static let idkey = "I"
+open class HubProgressUpdate{
+    fileprivate static let idkey = "I"
     
-    private static let dataKey = "D"
+    fileprivate static let dataKey = "D"
     
-    public var id: String? = ""
+    open var id: String? = ""
     
-    public var data: Any? = ""
+    open var data: Any? = ""
     
     public init(parameters: [String:AnyObject]){
         self.id = parameters[HubProgressUpdate.idkey] as? String

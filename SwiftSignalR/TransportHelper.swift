@@ -8,26 +8,58 @@
 
 import Foundation
 import Alamofire
-public class TransportHelper{
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func >= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l >= r
+  default:
+    return !(lhs < rhs)
+  }
+}
+
+open class TransportHelper{
     
     
-    public func getNegotiationResponse(httpClient:IHttpClient,connection:IConnection?,connectionData:String?,completion:(ErrorType?,NegotiationResponse?)->()){
+    open func getNegotiationResponse(_ httpClient:IHttpClient,connection:IConnection?,connectionData:String?,completion:@escaping (Error?,NegotiationResponse?)->()){
         
         if connection == nil{
-            completion(CommonException.ArgumentNullException(exception: "connection"),nil)
+            completion(CommonException.argumentNullException(exception: "connection"),nil)
             return
         }
         do{
             let negotiateUrl = try UrlBuilder.buildNegotiate(connection, connectionData: connectionData)
-            httpClient.get(negotiateUrl,cancellationToken: nil,data: nil){
+            httpClient.get(negotiateUrl,cancellationToken: nil){
                 err,val -> Void in
                 var negotiationResp: NegotiationResponse? = nil
-                if val != nil{
-                    negotiationResp = NegotiationResponse(json:val)
+                do{
+                    if val != nil{
+                        if let json = try connection?.JsonDeSerialize(val!){
+                            if let parameters = json as? [String:Any]{
+                                negotiationResp = NegotiationResponse(parameters: parameters)
+                            }
+                        }
+                    }
+                    
+                    completion(err,negotiationResp)
+                }catch let deserializeErr{
+                    completion(deserializeErr,negotiationResp)
                 }
-                
-                completion(err,negotiationResp)
-                
+   
             }
 
         }catch let err{
@@ -38,17 +70,17 @@ public class TransportHelper{
         
     }
     
-    public func getStartResponse(httpClient:IHttpClient,connection:IConnection?,connectionData:String?,transport:String?,completion:(ErrorType?,String?)->()){
+    open func getStartResponse(_ httpClient:IHttpClient,connection:IConnection?,connectionData:String?,transport:String?,completion:@escaping (Error?,String?)->()){
         
         if connection == nil{
-            completion(CommonException.ArgumentNullException(exception: "connection"),nil)
+            completion(CommonException.argumentNullException(exception: "connection"),nil)
             return
         }
         
         do{
             let startUrl = try UrlBuilder.buildStart(connection, transport: transport, connectionData: connectionData!)
             
-            httpClient.get(startUrl,cancellationToken: nil,data: nil){
+            httpClient.get(startUrl,cancellationToken: nil){
                 err,val in
                 
                 completion(err,val)
@@ -62,12 +94,12 @@ public class TransportHelper{
         
     }
     
-    public static func verifyLastActive(conneciton:IConnection?) throws -> Bool{
+    open static func verifyLastActive(_ conneciton:IConnection?) throws -> Bool{
         if conneciton == nil{
-            throw CommonException.ArgumentNullException(exception: "connection")
+            throw CommonException.argumentNullException(exception: "connection")
         }
-        let curDate = NSDate()
-        if curDate.timeIntervalSinceDate((conneciton?.lastActiveAt)!) >= conneciton?.reconnectWindow{
+        let curDate = Date()
+        if curDate.timeIntervalSince((conneciton?.lastActiveAt)! as Date) >= conneciton?.reconnectWindow{
             conneciton?.stop()
             return false
         }
