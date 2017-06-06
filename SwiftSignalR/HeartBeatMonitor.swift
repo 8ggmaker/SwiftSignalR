@@ -51,6 +51,8 @@ public class HeartBeatMonitor{
     }
     
     @objc private func heartBeat(){
+        
+        SSRLog.log(nil,message: "heartbeat")
         let timeElapsed = NSDate().timeIntervalSinceDate(connection.lastMessageAt)
         beat(timeElapsed)
     }

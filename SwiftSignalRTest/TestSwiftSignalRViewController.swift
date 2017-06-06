@@ -54,16 +54,16 @@ extension TestSwiftSignalRViewController{
         
         self.delegate.send(userName, msg: text){
             res -> () in
-//            if res{
-//                dispatch_async(dispatch_get_main_queue()){
-//                    let message = JSQMessage(senderId: self.userName, senderDisplayName: self.userName, date: date, text: text)
-//                    self.messages.append(message)
-//                    self.finishSendingMessage()
-//                }
-//                
-//            }else{
-//                print("send failed")
-//            }
+            if res{
+                dispatch_async(dispatch_get_main_queue()){
+                    let message = JSQMessage(senderId: self.userName, senderDisplayName: self.userName, date: date, text: text)
+                    self.messages.append(message)
+                    self.finishSendingMessage()
+                }
+                
+            }else{
+                print("send failed")
+            }
             
         }
         

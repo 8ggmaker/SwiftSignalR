@@ -103,7 +103,7 @@ class TestLoginViewController: UIViewController {
             
             connection.closed = {
                 do{
-                    self.start()
+                    try self.connection.start()
 
                 }catch{
                     
