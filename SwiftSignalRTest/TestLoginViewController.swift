@@ -103,7 +103,7 @@ class TestLoginViewController: UIViewController {
             
             connection.closed = {
                 do{
-                    try self.connection.start()
+                    self.start()
 
                 }catch{
                     
@@ -129,6 +129,8 @@ class TestLoginViewController: UIViewController {
             
             if res is Bool{
                 compeletionHandler(res as! Bool)
+            }else{
+                compeletionHandler(false)
             }
         })
     }

@@ -39,6 +39,7 @@
 		3B4DCC521E07D0E9008CC256 /* HttpClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4DCC511E07D0E9008CC256 /* HttpClient.swift */; };
 		3B4DCC541E07ECD1008CC256 /* IHttpClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4DCC531E07ECD1008CC256 /* IHttpClient.swift */; };
 		3B4DCC561E08DF45008CC256 /* WebSocketTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B4DCC551E08DF45008CC256 /* WebSocketTransport.swift */; };
+		3B54F44E1EE6564400D6AADB /* ConnectingMessageBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B54F44D1EE6564400D6AADB /* ConnectingMessageBuffer.swift */; };
 		3BA523541E20F37E00DAE06E /* TestLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA523531E20F37E00DAE06E /* TestLoginViewController.swift */; };
 		3BB3D7811EB9C82700A9F2CC /* Jsonable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB3D7801EB9C82700A9F2CC /* Jsonable.swift */; };
 		3BB3D7831EBB7C4700A9F2CC /* JsonSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB3D7821EBB7C4700A9F2CC /* JsonSerializer.swift */; };
@@ -127,6 +128,7 @@
 		3B4DCC511E07D0E9008CC256 /* HttpClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpClient.swift; sourceTree = "<group>"; };
 		3B4DCC531E07ECD1008CC256 /* IHttpClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IHttpClient.swift; sourceTree = "<group>"; };
 		3B4DCC551E08DF45008CC256 /* WebSocketTransport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebSocketTransport.swift; sourceTree = "<group>"; };
+		3B54F44D1EE6564400D6AADB /* ConnectingMessageBuffer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectingMessageBuffer.swift; sourceTree = "<group>"; };
 		3BA523501E20EC8000DAE06E /* SwiftSignalRTest-bridging-header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SwiftSignalRTest-bridging-header.h"; sourceTree = "<group>"; };
 		3BA523531E20F37E00DAE06E /* TestLoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestLoginViewController.swift; sourceTree = "<group>"; };
 		3BB3D7801EB9C82700A9F2CC /* Jsonable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Jsonable.swift; sourceTree = "<group>"; };
@@ -220,6 +222,7 @@
 				3B2293041E10D21100DFAEC7 /* Connection.swift */,
 				3B2293081E12462C00DFAEC7 /* HeartBeatMonitor.swift */,
 				3B0854041E1563D300B46D6C /* StringExtensions.swift */,
+				3B54F44D1EE6564400D6AADB /* ConnectingMessageBuffer.swift */,
 			);
 			path = SwiftSignalR;
 			sourceTree = "<group>";
@@ -649,6 +652,7 @@
 				3B4DCC541E07ECD1008CC256 /* IHttpClient.swift in Sources */,
 				3B0854091E1635DB00B46D6C /* IHubConnection.swift in Sources */,
 				3B4DCBFA1DD7514D008CC256 /* IClientTransport.swift in Sources */,
+				3B54F44E1EE6564400D6AADB /* ConnectingMessageBuffer.swift in Sources */,
 				3B4DCC001DD75408008CC256 /* IConnection.swift in Sources */,
 				3B0854131E17B1C000B46D6C /* HubProxy.swift in Sources */,
 				3B0854171E19239100B46D6C /* HubRegistrationData.swift in Sources */,

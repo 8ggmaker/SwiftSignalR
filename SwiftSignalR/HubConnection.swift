@@ -94,7 +94,7 @@ public class HubConnection: Connection, IHubConnection{
             self.callbacks = Dictionary<String,(HubResult?->())>()
         })
         for callback in errorCallbacks{
-            let hubResult = HubResult()
+            var hubResult = HubResult()
             hubResult.error = error
             callback(hubResult)
         }
@@ -155,6 +155,16 @@ public class HubConnection: Connection, IHubConnection{
             super.onReceived(data)
         }
         
+    }
+    
+    public override func onReconnecting() {
+        clearInvocationCallbacks("reconnecting")
+        super.onReconnecting()
+    }
+    
+    public override func onClosed() {
+        clearInvocationCallbacks("closed")
+        super.onClosed()
     }
     
     public override func onSending() -> String {

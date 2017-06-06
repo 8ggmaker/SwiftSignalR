@@ -7,7 +7,7 @@
 //
 
 import Foundation
-public protocol Jsonable: class{
+public protocol Jsonable{
     
     func toJsonObject()->NSDictionary
 }

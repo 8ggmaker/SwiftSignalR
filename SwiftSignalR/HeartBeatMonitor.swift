@@ -31,10 +31,18 @@ public class HeartBeatMonitor{
     public func start(){
         monitorKeepAlive = (connection.keepAliveData != nil && connection.transport.supportKeepAlive == true)
         clearFlags()
-        if timer != nil{
+        if timer != nil && timer.valid{
             timer.invalidate()
         }
-        timer = NSTimer(timeInterval: beatInterval, target: self, selector: #selector(heatBeat), userInfo: nil, repeats: true)
+        
+        timer = NSTimer.scheduledTimerWithTimeInterval(beatInterval, target: self, selector: #selector(heartBeat), userInfo: nil, repeats: true)
+    }
+    
+    public func stop(){
+        if timer != nil && timer.valid{
+            timer.invalidate()
+            timer = nil
+        }
     }
     
     private func clearFlags(){
@@ -42,7 +50,7 @@ public class HeartBeatMonitor{
         timeout = false
     }
     
-    @objc private func heatBeat(){
+    @objc private func heartBeat(){
         let timeElapsed = NSDate().timeIntervalSinceDate(connection.lastMessageAt)
         beat(timeElapsed)
     }

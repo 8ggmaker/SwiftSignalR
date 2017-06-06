@@ -31,6 +31,9 @@ public class TransportAbortHandler{
         }
         
         dispatch_sync(abortqueue){
+            if connection == nil{
+                return
+            }
             if !self.startedAbort{
                 self.startedAbort = true
                 
@@ -41,9 +44,9 @@ public class TransportAbortHandler{
                     let swiftRequest = Alamofire.Manager.sharedInstance.request((connection?.prepareRequest(request))!)
                     
                     swiftRequest.responseData(){
-                        response in
-                        if response.result.error != nil{
-                            self.completeAbort()
+                       [weak self] response in
+                        if response.result.error != nil && self != nil{
+                            self!.completeAbort()
                         }
                         
                     }

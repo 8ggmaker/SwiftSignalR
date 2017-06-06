@@ -7,7 +7,7 @@
   def pods
   pod 'Alamofire', '3.5.1'
   pod 'EVReflection', '~>2.6'
-  pod 'SocketRocket'
+  pod 'SocketRocket’
   
   end
 

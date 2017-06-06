@@ -98,7 +98,9 @@ public class ClientBaseTransport: NSObject,IClientTransport{
         do{
             if let res = try connection.JsonDeSerialize(message) as? [String:AnyObject]{
                 if res["I"] != nil{
-                    connection.onReceived(res)
+                    if !connection.connectingMessageBuffer.tryBuffer(message){
+                        connection.onReceived(res)
+                    }
                     return false
                 }
                 
@@ -117,7 +119,9 @@ public class ClientBaseTransport: NSObject,IClientTransport{
                 connection.messageId = res["C"] as? String
                 
                 for msg in messages{
-                    connection.onReceived(msg)
+                    if !connection.connectingMessageBuffer.tryBuffer(msg){
+                        connection.onReceived(msg)
+                    }
                 }
                 
                 if res["S"] as? Int == 1{

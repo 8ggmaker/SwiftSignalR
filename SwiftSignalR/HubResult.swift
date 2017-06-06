@@ -7,7 +7,7 @@
 //
 
 import Foundation
-public class HubResult{
+public struct HubResult{
     private static let idkey = "I"
     
     private static let progressUpdateKey = "P"

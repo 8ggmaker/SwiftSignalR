@@ -9,9 +9,12 @@
 import Foundation
 import SocketRocket
 
+
 public class WebSocketTransport: ClientBaseTransport{
     
     private var websocket: SRWebSocket?
+    
+    private var retainWebsocket: SRWebSocket?
     
     private var socketWorkerQueue:dispatch_queue_t = dispatch_queue_create("socketrocketwork", nil)
     
@@ -96,22 +99,28 @@ public class WebSocketTransport: ClientBaseTransport{
         websocket?.setDelegateDispatchQueue(socketWorkerQueue)
         websocket?.delegate = self
         
+        websocket?.open()
+
+        
+        
         connectionInfo.disconnectToken.register({
             ()->Void in
             if self.websocket != nil{
                 self.websocket?.closeWithCode(SRStatusCodeNormal.rawValue, reason: "request cancelled")
+                self.retainWebsocket = self.websocket
                 self.websocket = nil
             }
         })
         
-        websocket?.open()
         
     }
     
     private func stopWebSocket(){
         websocket?.delegate = nil
         websocket?.close()
+        retainWebsocket = websocket
         websocket = nil
+        
     }
     
     private func doReconnect(){
@@ -125,8 +134,6 @@ public class WebSocketTransport: ClientBaseTransport{
                 if try TransportHelper.verifyLastActive(self.connectionInfo.connection) && self.connectionInfo.connection.ensureReconnecting(){
                     self.performConnect(self.connectionInfo.connection, url: reconnectUrl)
                 }
-                
-                
                 
             }catch let err{
                 self.connectionInfo.connection.onError(err)
@@ -156,7 +163,7 @@ extension WebSocketTransport:SRWebSocketDelegate{
         }
         
         self.connectionInfo.connection.onError(error)
-
+        
         if abortHandler.TryCompleteAbort(){
             return
         }
@@ -172,6 +179,10 @@ extension WebSocketTransport:SRWebSocketDelegate{
         
         if abortHandler.TryCompleteAbort(){
             return
+        }
+        
+        if retainWebsocket != nil{
+            retainWebsocket = nil
         }
         
         doReconnect()

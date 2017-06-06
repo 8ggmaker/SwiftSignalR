@@ -74,6 +74,8 @@ public class Connection: IConnection{
         }
     }
     
+    public var connectingMessageBuffer: ConnectingMessageBuffer!
+    
     
     //MARK: CALL BACK ACTIONS
     
@@ -81,7 +83,7 @@ public class Connection: IConnection{
     
     public var closed: (() -> ())? = nil
     
-    public var received: (Any? throws -> ())? = nil
+    public var received: (Any? -> ())? = nil
     
     public var error: (ErrorType? -> ())? = nil
     
@@ -124,6 +126,7 @@ public class Connection: IConnection{
         self.headers = NSMutableDictionary()
         self.transportConnectTimeout = 0
         self.clientProtocol = try Version(major: 1, minor: 4)
+
     }
     
     
@@ -146,6 +149,14 @@ public class Connection: IConnection{
                 return
             }
             
+            if self.connectingMessageBuffer == nil{
+                self.connectingMessageBuffer = ConnectingMessageBuffer(connection: self,drainCallback:{
+                    [unowned self] data->() in
+                    
+                    self.onMessageReceived(data)
+                })
+            }
+        
             self.disconnectCts = CancellationSource()
             self.transport = transport
             
@@ -198,6 +209,10 @@ public class Connection: IConnection{
             err -> () in
             if err == nil{
                 self.changeState(.Connecting, newState: .Connected)
+                
+                if self.connectingMessageBuffer != nil{
+                    self.connectingMessageBuffer.drain()
+                }
                 
                 if self.started != nil{
                     self.started!()
@@ -261,7 +276,8 @@ public class Connection: IConnection{
                 if self.state == .Disconnected{
                     alreadyStopped = true
                     return
-                }})
+                }
+            })
             if !alreadyStopped{
                 try self.transport.abort(self, timeout: timeout, connectionData: self.connectionData)
                 self.disconnect()
@@ -287,6 +303,7 @@ public class Connection: IConnection{
                 
                 
                 if self.heartBeatMonitor != nil{
+                    self.heartBeatMonitor.stop()
                     self.heartBeatMonitor = nil
                 }
                 
@@ -299,10 +316,12 @@ public class Connection: IConnection{
                 self.groupsToken = ""
                 self.messageId = ""
                 self.connectionData = ""
-
+                if self.connectingMessageBuffer != nil{
+                    self.connectingMessageBuffer.clear()
+                }
+                self.onClosed()
             }
         })
-        self.onClosed()
         
     }
     
@@ -351,23 +370,15 @@ public class Connection: IConnection{
     }
     
     public func onReceived(data: Any?){
-        dispatch_async(receiveMessageQueue){
-            do{
-                try self.onMessageReceived(data)
-            }catch let err{
-                self.onError(err)
-            }
+        dispatch_sync(receiveMessageQueue){
+            self.onMessageReceived(data)
         }
     }
     
     
-    func onMessageReceived(message:Any?)throws {
+    func onMessageReceived(message:Any?) {
         if received != nil{
-            do{
-                try received!(message)
-            }catch let err{
-                onError(err)
-            }
+            received!(message)
         }
     }
     public func onError(error:ErrorType){

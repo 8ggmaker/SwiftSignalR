@@ -88,6 +88,11 @@ public protocol IConnection:class{
         set
     }
     
+    var connectingMessageBuffer: ConnectingMessageBuffer!{
+        get
+        set
+    }
+    
     func changeState(oldState:ConnectionState,newState:ConnectionState) -> Bool
     
     func stop()
